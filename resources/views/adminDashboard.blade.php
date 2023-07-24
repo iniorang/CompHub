@@ -108,8 +108,7 @@
                     <div class="col-md-12">
                         <div class="card border-0 shadow-sm rounded">
                             <div class="card-body">
-                                <a href="{{ route('kompetisi.create') }}" class="btn btn-md btn-success mb-3">TAMBAH
-                                    POST (Admin)</a>
+                                <a href="{{ route('kompetisi.create') }}" class="btn btn-md btn-success mb-3">Tambah Kompetisi</a>
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
@@ -123,7 +122,7 @@
                                         @forelse ($comp as $c)
                                             <tr>
                                                 <td class="text-center">
-                                                    <img src="{{ asset('/storage/competition/' . $c->image) }}"
+                                                    <img src="{{ asset('/storage/competition/' . $c->img) }}"
                                                         class="rounded" style="width: 150px">
                                                 </td>
                                                 <td>{{ $c->nama }}</td>
