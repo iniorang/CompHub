@@ -7,16 +7,16 @@
                 <div class="card border-0 shadow-sm rounded">
                     <div class="card-body">
                         <form action="{{ route('kompetisi.update', $comp->id) }}" method="POST" enctype="multipart/form-data">
-                            @csrf
-                            @method('PUT')
-
+                            {{ csrf_field() }}
+                            {{ method_field('put') }}
+                            <input type="hidden" name="id" value="{{ $comp->id }}">
                             <div class="form-group">
                                 <label class="font-weight-bold">Gambar</label>
                                 <input type="file" class="form-control" name="img">
                             </div>
 
                             <div class="form-group">
-                                <label class="font-weight-bold">Judul</label>
+                                <label class="font-weight-bold">Nama</label>
                                 <input type="text" class="form-control @error('nama') is-invalid @enderror"
                                     name="nama" value="{{ old('nama', $comp->nama) }}" placeholder="Masukkan Nama Kompetisi">
 
@@ -30,7 +30,7 @@
 
                             <div class="form-group">
                                 <label class="font-weight-bold">Deskripsi</label>
-                                <textarea class="form-control @error('content') is-invalid @enderror" name="content" rows="5"
+                                <textarea class="form-control @error('content') is-invalid @enderror" name="desk" rows="5"
                                     placeholder="Masukkan Deskripsi">{{ old('desk', $comp->desk) }}</textarea>
 
                                 <!-- error message untuk content -->
@@ -42,11 +42,11 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="font-weight-bold">Penyelengara</label>
-                                <input type="text" class="form-control @error('org') is-invalid @enderror" name="org"
-                                    value="{{ old('org') }}" placeholder="Pilih Penyelengara">
+                                <label class="font-weight-bold">Penyelanggara</label>
+                                <input type="text" class="form-control @error('org') is-invalid @enderror"
+                                    name="org" value="{{ old('org', $comp->org) }}" placeholder="Pilih Penyelanggara">
 
-                                <!-- error message untuk nama -->
+                                <!-- error message untuk title -->
                                 @error('org')
                                     <div class="alert alert-danger mt-2">
                                         {{ $message }}
@@ -63,4 +63,12 @@
             </div>
         </div>
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace( 'desk' );
+    </script>
 @endsection
+
+

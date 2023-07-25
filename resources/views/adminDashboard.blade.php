@@ -133,7 +133,7 @@
                                                         <a href="{{ route('kompetisi.detail', $c->id) }}"
                                                             class="btn btn-sm btn-dark">SHOW</a>
                                                         <a href="{{ route('kompetisi.edit', $c->id) }}"
-                                                            class="btn btn-sm btn-primary">EDIT</a>
+                                                            class="btn btn-sm btn-primary">Edit</a>
                                                         @csrf
                                                         @method('DELETE')
                                                         <button type="submit" class="btn btn-sm btn-danger">HAPUS</button>

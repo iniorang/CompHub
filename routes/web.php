@@ -40,7 +40,7 @@ Route::middleware(['auth','user-access:admin'])->group(function(){
     Route::get('/admin/destroyComp/{id}',[KompetisiController::class,'destroy'])->name('kompetisi.destroy');
     Route::get('/admin/detail',[KompetisiController::class,'show'])->name('kompetisi.detail');
     Route::get('/admin/edit/{id}',[KompetisiController::class,'edit'])->name('kompetisi.edit');
-    Route::get('/admin/update{id}',[KompetisiController::class,'update'])->name('kompetisi.update');
+    Route::put('/admin/update/{id}',[KompetisiController::class,'update'])->name('kompetisi.update');
 });
 
 Route::match(['get','post'],'/logout', [LoginController::class, 'logout'])->name('logout');

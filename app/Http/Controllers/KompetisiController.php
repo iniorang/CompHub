@@ -60,8 +60,9 @@ class KompetisiController extends Controller
 
     public function update(Request $request, $id): RedirectResponse
     {
+        //dd($id);
         $this->validate($request, [
-            'img' => 'required|image|mimems:jpeg,jpg,png|max:2048',
+            'img' => 'image|mimes:jpeg,jpg,png|max:2048',
             'nama' => 'required|min:5',
             'desk' => 'required|min:10',
             'org' => 'required'
@@ -72,14 +73,14 @@ class KompetisiController extends Controller
             $img = $request->file('img');
             $img->storeAs('public/competition', $img->hashName());
             Storage::delete('public/competition' . $comp->image);
-            $comp->upadte([
+            $comp->update([
                 'img' => $img->hashName(),
                 'nama' => $request->nama,
                 'desk' => $request->desk,
                 'org' => $request->org,
             ]);
         } else {
-            $comp->upadte([
+            $comp->update([
                 'nama' => $request->nama,
                 'desk' => $request->desk,
                 'org' => $request->org,
