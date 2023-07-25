@@ -19,20 +19,9 @@ use App\Http\Controllers\KompetisiController;
 
 Route::get('/', function () {
     return view('home');
-});
+})->name('beranda');
 Auth::routes();
-Route::middleware(['auth','user-access:user'])->group(function(){
 
-});
-Route::middleware(['auth','user-access:staff'])->group(function(){
-    Route::get('/staff', [KompetisiController::class, 'index'])->name('index');
-    Route::get('/staff/create/Comp',[KompetisiController::class,'create'])->name('kompetisi1.create');
-    Route::post('/staff/insert/Comp',[KompetisiController::class,'store'])->name('kompetisi1.store');
-    Route::get('/staff/destroyComp/{id}',[KompetisiController::class,'destroy'])->name('kompetisi1.destroy');
-    Route::get('/staff/detail',[KompetisiController::class,'show'])->name('kompetisi1.detail');
-    Route::get('/staff/edit/{id}',[KompetisiController::class,'edit'])->name('kompetisi1.edit');
-    Route::get('/staff/update{id}',[KompetisiController::class,'update'])->name('kompetisi1.update');
-});
 Route::middleware(['auth','user-access:admin'])->group(function(){
     Route::get('/admin', [KompetisiController::class, 'index'])->name('index');
     Route::get('/admin/create/Comp',[KompetisiController::class,'create'])->name('kompetisi.create');
@@ -41,6 +30,7 @@ Route::middleware(['auth','user-access:admin'])->group(function(){
     Route::get('/admin/detail',[KompetisiController::class,'show'])->name('kompetisi.detail');
     Route::get('/admin/edit/{id}',[KompetisiController::class,'edit'])->name('kompetisi.edit');
     Route::put('/admin/update/{id}',[KompetisiController::class,'update'])->name('kompetisi.update');
+    Route::get('/admin/cetak',[KompetisiController::class,'printPDF'])->name('kompetisi.pdf');
 });
 
 Route::match(['get','post'],'/logout', [LoginController::class, 'logout'])->name('logout');

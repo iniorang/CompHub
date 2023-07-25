@@ -109,6 +109,7 @@
                         <div class="card border-0 shadow-sm rounded">
                             <div class="card-body">
                                 <a href="{{ route('kompetisi.create') }}" class="btn btn-md btn-success mb-3">Tambah Kompetisi</a>
+                                <a href="{{ route('kompetisi.pdf') }}" class="btn btn-primary" target="_blank">CETAK PDF</a>
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>

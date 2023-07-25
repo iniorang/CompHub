@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Contracts\View\View;
 use App\Models\kompetisi;
+use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -94,5 +95,12 @@ class KompetisiController extends Controller
         Storage::delete('public/competition' . $comp->image);
         $comp->delete();
         return redirect()->route('index')->with(['success' => 'Data Kompetisi dihapus']);
+    }
+
+    public function printPDF(){
+        $comp = kompetisi::all();
+
+        $comp = Pdf::loadView('Kompetisi.CompPdf',['comp' => $comp]);
+        return $comp->download('comp.pdf');
     }
 }
