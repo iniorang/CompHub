@@ -32,15 +32,19 @@ class OrgController extends Controller
     {
         $organizer = organizer::findorfail($id);
         return view('organizer.edit', compact('organizer'));
+
+
     }
 
     public function update(Request $request, $id): RedirectResponse
     {
         $this->validate($request, [
-            'nama' => 'required|min:5',
+            'nama'
         ]);
-
         $organizer = organizer::findorfail($id);
+        $organizer->update([
+            'nama'
+        ]);
         return redirect()->route('index')->with(['success' => 'Data organizer Terubah']);
     }
 

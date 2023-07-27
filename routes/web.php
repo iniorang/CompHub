@@ -41,19 +41,19 @@ Route::middleware(['auth','user-access:admin'])->group(function(){
 
     Route::get('/admin/create/user',[UserController::class,'create'])->name('user.create');
     Route::post('/admin/insert/user',[UserController::class,'store'])->name('user.store');
-    Route::get('/admin/destroyUser/{id}',[UserController::class,'destroy'])->name('user.destroy');
+    Route::delete('/admin/destroyUser/{id}',[UserController::class,'destroy'])->name('user.destroy');
     Route::get('/admin/edit/user/{id}',[UserController::class,'edit'])->name('user.edit');
     Route::put('/admin/update/user/{id}',[UserController::class,'update'])->name('user.update');
 
     Route::get('/admin/create/org',[OrgController::class,'create'])->name('org.create');
     Route::post('/admin/insert/org',[OrgController::class,'store'])->name('org.store');
-    Route::get('/admin/destroyOrg/{id}',[OrgController::class,'destroy'])->name('org.destroy');
+    Route::delete('/admin/destroyOrg/{id}',[OrgController::class,'destroy'])->name('org.destroy');
     Route::get('/admin/edit/org/{id}',[OrgController::class,'edit'])->name('org.edit');
     Route::put('/admin/update/org/{id}',[OrgController::class,'update'])->name('org.update');
 
     Route::get('/admin/create/tim',[timController::class,'create'])->name('tim.create');
     Route::post('/admin/insert/tim',[timController::class,'store'])->name('tim.store');
-    Route::get('/admin/destroyTim/{id}',[timController::class,'destroy'])->name('tim.destroy');
+    Route::delete('/admin/destroyTim/{id}',[timController::class,'destroy'])->name('tim.destroy');
     Route::get('/admin/detail/tim/{id}',[timController::class,'show'])->name('tim.detail');
     Route::get('/admin/edit/tim/{id}',[timController::class,'edit'])->name('tim.edit');
     Route::put('/admin/update/tim/{id}',[timController::class,'update'])->name('tim.update');
