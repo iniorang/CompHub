@@ -23,7 +23,12 @@ class KompetisiController extends Controller
         $comp = kompetisi::latest()->paginate(10);
         $user = user::latest()->paginate(10);
         $tim = tim::latest()->paginate(10);
-        return view('adminDashboard', compact('comp','user','org','tim'));
+
+        $org_count = organizer::count();
+        $tim_count = tim::count();
+        $user_count = user::count();
+        $comp_count = kompetisi::count();
+        return view('adminDashboard', compact('comp','user','org','tim','org_count','tim_count','user_count','comp_count'));
     }
 
     public function create(): View

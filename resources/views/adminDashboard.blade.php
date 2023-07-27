@@ -9,9 +9,8 @@
                     <div class="col">
                         <div class="card" style="width: 18rem;">
                             <div class="card-body">
-                                <h1 class="card-title">Card title</h1>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk
-                                    of the card's content.</p>
+                                <h1 class="card-title">Organizer</h1>
+                                <p class="card-text">{{ $org_count }}</p>
                                 <a href="#" class="btn btn-primary">Go somewhere</a>
                             </div>
                         </div>
@@ -19,9 +18,8 @@
                     <div class="col">
                         <div class="card" style="width: 18rem;">
                             <div class="card-body">
-                                <h1 class="card-title">Card title</h1>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk
-                                    of the card's content.</p>
+                                <h1 class="card-title">Tim</h1>
+                                <p class="card-text">{{ $tim_count}}.</p>
                                 <a href="#" class="btn btn-primary">Go somewhere</a>
                             </div>
                         </div>
@@ -29,9 +27,8 @@
                     <div class="col">
                         <div class="card" style="width: 18rem;">
                             <div class="card-body">
-                                <h1 class="card-title">Card title</h1>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk
-                                    of the card's content.</p>
+                                <h1 class="card-title">User</h1>
+                                <p class="card-text">{{ $user_count}}.</p>
                                 <a href="#" class="btn btn-primary">Go somewhere</a>
                             </div>
                         </div>
@@ -39,9 +36,8 @@
                     <div class="col">
                         <div class="card" style="width: 18rem;">
                             <div class="card-body">
-                                <h1 class="card-title">Card title</h1>
-                                <p class="card-text">Some quick example text to build on the card title and make up the bulk
-                                    of the card's content.</p>
+                                <h1 class="card-title">Kompetisi</h1>
+                                <p class="card-text">{{ $comp_count}}</p>
                                 <a href="#" class="btn btn-primary">Go somewhere</a>
                             </div>
                         </div>
