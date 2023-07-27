@@ -6,13 +6,13 @@
         <div class="col-md-12">
             <div class="card border-0 shadow-sm rounded">
                 <div class="card-body">
-                    <form action="{{ route('kompetisi.store') }}" method="POST" enctype="multipart/form-data">
+                    <form action="{{ route('org.store') }}" method="POST" enctype="multipart/form-data">
 
                         @csrf
 
                         <div class="form-group">
                             <label class="font-weight-bold">Nama</label>
-                            <input type="text" class="form-control @error('nama') is-invalid @enderror" name="nama" value="{{ old('nama') }}" placeholder="Masukkan Nama Kompetisi">
+                            <input type="text" class="form-control @error('nama') is-invalid @enderror" name="nama" value="{{ old('nama') }}" placeholder="Masukkan Nama Penyelenggara">
 
                             <!-- error message untuk nama -->
                             @error('nama')

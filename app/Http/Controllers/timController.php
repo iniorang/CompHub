@@ -17,10 +17,12 @@ class timController extends Controller
     {
         $this->validate($request, [
             'nama' => 'required|min:5',
+            'ketua'
         ]);
 
         tim::create([
             'nama' => $request->nama,
+            'ketua' => $request->ketua
         ]);
         return redirect()->route('index')->with(['success' => 'Data tim Tersimpan']);
     }
@@ -40,10 +42,14 @@ class timController extends Controller
     public function update(Request $request, $id): RedirectResponse
     {
         $this->validate($request, [
-            'nama' => 'required|min:5',
+            'nama' => 'min:5',
+            'ketua'
         ]);
-
         $tim = tim::findorfail($id);
+        $tim->update([
+            'nama' => $request->nama,
+            'ketua' => $request->ketua
+        ]);
         return redirect()->route('index')->with(['success' => 'Data tim Terubah']);
     }
 

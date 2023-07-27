@@ -34,7 +34,7 @@ Route::middleware(['auth','user-access:admin'])->group(function(){
     Route::get('/admin/create/Comp',[KompetisiController::class,'create'])->name('kompetisi.create');
     Route::post('/admin/insert/Comp',[KompetisiController::class,'store'])->name('kompetisi.store');
     Route::get('/admin/destroyComp/{id}',[KompetisiController::class,'destroy'])->name('kompetisi.destroy');
-    Route::get('/admin/detail',[KompetisiController::class,'show'])->name('kompetisi.detail');
+    Route::get('/admin/detail/{id}',[KompetisiController::class,'show'])->name('kompetisi.detail');
     Route::get('/admin/edit/comp/{id}',[KompetisiController::class,'edit'])->name('kompetisi.edit');
     Route::put('/admin/update/comp/{id}',[KompetisiController::class,'update'])->name('kompetisi.update');
     Route::get('/admin/cetak',[KompetisiController::class,'printPDF'])->name('kompetisi.pdf');
@@ -54,6 +54,7 @@ Route::middleware(['auth','user-access:admin'])->group(function(){
     Route::get('/admin/create/tim',[timController::class,'create'])->name('tim.create');
     Route::post('/admin/insert/tim',[timController::class,'store'])->name('tim.store');
     Route::get('/admin/destroyTim/{id}',[timController::class,'destroy'])->name('tim.destroy');
+    Route::get('/admin/detail/tim/{id}',[timController::class,'show'])->name('tim.detail');
     Route::get('/admin/edit/tim/{id}',[timController::class,'edit'])->name('tim.edit');
     Route::put('/admin/update/tim/{id}',[timController::class,'update'])->name('tim.update');
 });

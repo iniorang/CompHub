@@ -62,6 +62,7 @@
                                         <tr>
                                             <th scope="col">Id</th>
                                             <th scope="col">Nama</th>
+                                            <th scope="col">Email</th>
                                             <th scope="col">Nomor Telpon</th>
                                             <th scope="col">Alamat</th>
                                             <th scope="col">Aksi</th>
@@ -72,6 +73,7 @@
                                             <tr>
                                                 <td>{{ $u->id }}</td>
                                                 <td>{{ $u->name }}</td>
+                                                <td>{{ $u->email }}</td>
                                                 <td>{{ $u->telp }}</td>
                                                 <td>{{ $u->alamat }}</td>
                                                 <td class="text-center">
@@ -160,12 +162,13 @@
                         <div class="card border-0 shadow-sm rounded">
                             <div class="card-body">
                                 <a href="{{ route('tim.create') }}" class="btn btn-md btn-success mb-3">Tambah
-                                    User</a>
+                                    Tim</a>
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
                                             <th scope="col">Id</th>
                                             <th scope="col">Nama</th>
+                                            <th scope="col">Ketua</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -173,12 +176,13 @@
                                             <tr>
                                                 <td>{{ $t->id }}</td>
                                                 <td>{{ $t->nama }}</td>
+                                                <td>{{ $t->ketua }}</td>
                                                 <td class="text-center">
                                                     <form onsubmit="return confirm('Apakah Anda Yakin ?');"
-                                                        action="{{ route('tim.destroy', $u->id) }}" method="POST">
-                                                        <a href="{{ route('tim.detail', $c->id) }}"
+                                                        action="{{ route('tim.destroy', $t->id) }}" method="POST">
+                                                        <a href="{{ route('tim.detail', $t->id) }}"
                                                             class="btn btn-sm btn-dark">Detail</a>
-                                                        <a href="{{ route('tim.edit', $u->id) }}"
+                                                        <a href="{{ route('tim.edit', $t->id) }}"
                                                             class="btn btn-sm btn-primary">Edit</a>
                                                         @csrf
                                                         @method('DELETE')
