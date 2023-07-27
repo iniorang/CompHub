@@ -6,12 +6,13 @@
             <div class="col-md-12">
                 <div class="card border-0 shadow-sm rounded">
                     <div class="card-body">
-                        <form action="{{ route('org.store') }}" method="POST" enctype="multipart/form-data">
-                            @csrf
+                        <form action="{{ route('org.update', $organizer->id) }}" method="POST" enctype="multipart/form-data">
+                            {{ csrf_field() }}
+                            {{ method_field('put') }}
                             <div class="form-group">
                                 <label class="font-weight-bold">Nama</label>
                                 <input type="text" class="form-control @error('nama') is-invalid @enderror"
-                                    name="nama" value="{{ old('nama') }}" placeholder="Masukkan Nama Penyelenggara">
+                                    name="nama" value="{{ old('nama', $organizer->nama) }}" placeholder="Masukkan Nama Penyelenggara">
 
                                 <!-- error message untuk nama -->
                                 @error('nama')
