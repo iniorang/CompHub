@@ -26,7 +26,7 @@
                             <div class="form-group">
                                 <label class="font-weight-bold">Ketua Tim</label>
                                 <input type="text" class="form-control @error('ketua') is-invalid @enderror"
-                                    name="ketua" value="{{ old('ketua') }}" placeholder="Masukkan Ketuaa">
+                                    name="ketua" value="{{ old('ketua') }}" placeholder="Masukkan Ketua">
 
                                 <!-- error message untuk nama -->
                                 @error('ketua')

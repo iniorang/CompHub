@@ -5,6 +5,7 @@ use App\Models\tim;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class timController extends Controller
 {
@@ -17,12 +18,12 @@ class timController extends Controller
     {
         $this->validate($request, [
             'nama' => 'required|min:5',
-            'ketua'
+            'ketua' => 'required'
         ]);
 
         tim::create([
             'nama' => $request->nama,
-            'ketua' => $request->ketua
+            'ketua' => $request->ketua,
         ]);
         return redirect()->route('index')->with(['success' => 'Data tim Tersimpan']);
     }
@@ -58,4 +59,18 @@ class timController extends Controller
         $tim->delete();
         return redirect()->route('index')->with(['success' => 'Data tim dihapus']);
     }
+
+    public function buatTim(Request $request) :RedirectResponse{
+        $this->validate($request, [
+            'nama' => 'required|min:5',
+            'ketua'
+        ]);
+
+        tim::create([
+            'nama' => $request->nama,
+            'ketua' => Auth::id(),
+        ]);
+        return redirect()->route('index')->with(['success' => 'Data tim Tersimpan']);
+    }
+
 }
