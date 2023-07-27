@@ -317,5 +317,6 @@
         // Your code to run since DOM is loaded and ready
     });
 </script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script>
 </html>

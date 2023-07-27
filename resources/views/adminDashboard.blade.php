@@ -50,41 +50,38 @@
             </div>
         </div>
         <div class="tab-pane" id="peserta">
-            {{-- <div class="container mt-5">
+            <div class="container mt-5">
                 <div class="row">
                     <div class="col-md-12">
                         <div class="card border-0 shadow-sm rounded">
                             <div class="card-body">
-                                <a href="{{ route('create') }}" class="btn btn-md btn-success mb-3">TAMBAH
-                                    POST</a>
+                                <a href="{{ route('user.create') }}" class="btn btn-md btn-success mb-3">Tambah
+                                    User</a>
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Thumbnail</th>
+                                            <th scope="col">Id</th>
                                             <th scope="col">Nama</th>
-                                            <th scope="col">Deskripsi</th>
+                                            <th scope="col">Nomor Telpon</th>
+                                            <th scope="col">Alamat</th>
                                             <th scope="col">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($comp as $c)
+                                        @forelse ($user as $u)
                                             <tr>
-                                                <td class="text-center">
-                                                    <img src="{{ asset('/storage/competition/' . $c->image) }}"
-                                                        class="rounded" style="width: 150px">
-                                                </td>
-                                                <td>{{ $c->nama }}</td>
-                                                <td>{!! $c->desk !!}</td>
+                                                <td>{{ $u->id }}</td>
+                                                <td>{{ $u->name }}</td>
+                                                <td>{{ $u->telp }}</td>
+                                                <td>{{ $u->alamat }}</td>
                                                 <td class="text-center">
                                                     <form onsubmit="return confirm('Apakah Anda Yakin ?');"
-                                                        action="{{ route('destroy', $c->id) }}" method="POST">
-                                                        <a href="{{ route('detail', $c->id) }}"
-                                                            class="btn btn-sm btn-dark">SHOW</a>
-                                                        <a href="{{ route('edit', $c->id) }}"
-                                                            class="btn btn-sm btn-primary">EDIT</a>
+                                                        action="{{ route('user.destroy', $u->id) }}" method="POST">
+                                                        <a href="{{ route('user.edit', $u->id) }}"
+                                                            class="btn btn-sm btn-primary">Edit</a>
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-danger">HAPUS</button>
+                                                        <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
                                                     </form>
                                                 </td>
                                             </tr>
@@ -95,12 +92,12 @@
                                         @endforelse
                                     </tbody>
                                 </table>
-                                {{ $comp->links() }}
+                                {{ $user->links() }}
                             </div>
                         </div>
                     </div>
                 </div>
-            </div> --}}
+            </div>
         </div>
         <div class="tab-pane" id="kompetisi">
             <div class="container mt-5">
@@ -156,8 +153,53 @@
             </div>
         </div>
         <div class="tab-pane" id="tim">
-            <div class="container">
-                <h1>Tim</h1>
+            <div class="container mt-5">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card border-0 shadow-sm rounded">
+                            <div class="card-body">
+                                <a href="{{ route('user.create') }}" class="btn btn-md btn-success mb-3">Tambah
+                                    User</a>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Id</th>
+                                            <th scope="col">Nama</th>
+                                            <th scope="col">Nomor Telpon</th>
+                                            <th scope="col">Alamat</th>
+                                            <th scope="col">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($user as $u)
+                                            <tr>
+                                                <td>{{ $u->id }}</td>
+                                                <td>{{ $u->name }}</td>
+                                                <td>{{ $u->telp }}</td>
+                                                <td>{{ $u->alamat }}</td>
+                                                <td class="text-center">
+                                                    <form onsubmit="return confirm('Apakah Anda Yakin ?');"
+                                                        action="{{ route('user.destroy', $u->id) }}" method="POST">
+                                                        <a href="{{ route('user.edit', $u->id) }}"
+                                                            class="btn btn-sm btn-primary">Edit</a>
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <div class="alert alert-danger">
+                                                Data Peserta belum Tersedia.
+                                            </div>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                                {{ $user->links() }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="tab-pane" id="trans">

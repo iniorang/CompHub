@@ -21,12 +21,3 @@
     </div>
 </div>
 @endsection
-{{-- 
-@if (auth()->role == '1')
-
-
-@elseif(auth()->role() == 'librarian')
-
-@else
-
-@endif --}}

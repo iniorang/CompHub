@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Contracts\View\View;
 use App\Models\kompetisi;
+use App\Models\User;
 use Barryvdh\DomPDF\Facade\Pdf;
 use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\RedirectResponse;
@@ -16,7 +17,8 @@ class KompetisiController extends Controller
     public function index(): View
     {
         $user = Auth::user();
-        $comp = kompetisi::latest()->paginate(5);
+        $comp = kompetisi::latest()->paginate(10);
+        $user = user::latest()->paginate(10);
         return view('adminDashboard', compact('comp','user'));
     }
 

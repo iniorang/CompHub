@@ -24,7 +24,7 @@ class OrgController extends Controller
             'nama' => $request->nama,
 
         ]);
-        return redirect()->route('index')->with(['success' => 'Data organizer Tersimpan']);
+        return redirect()->route('index')->with(['success' => 'Organizer Terdaftar']);
     }
 
     public function show(string $id): view

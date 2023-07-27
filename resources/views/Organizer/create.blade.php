@@ -11,18 +11,6 @@
                         @csrf
 
                         <div class="form-group">
-                            <label class="font-weight-bold">Gambar</label>
-                            <input type="file" class="form-control @error('image') is-invalid @enderror" name="img">
-
-                            <!-- error message untuk nama -->
-                            @error('image')
-                                <div class="alert alert-danger mt-2">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-
-                        <div class="form-group">
                             <label class="font-weight-bold">Nama</label>
                             <input type="text" class="form-control @error('nama') is-invalid @enderror" name="nama" value="{{ old('nama') }}" placeholder="Masukkan Nama Kompetisi">
 
@@ -34,29 +22,6 @@
                             @enderror
                         </div>
 
-                        <div class="form-group">
-                            <label class="font-weight-bold">KONTEN</label>
-                            <textarea class="form-control @error('desk') is-invalid @enderror" name="desk" rows="5" placeholder="Masukkan Deskripsi">{{ old('desk') }}</textarea>
-
-                            <!-- error message untuk content -->
-                            @error('desk')
-                                <div class="alert alert-danger mt-2">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
-
-                        <div class="form-group">
-                            <label class="font-weight-bold">Penyelengara</label>
-                            <input type="text" class="form-control @error('org') is-invalid @enderror" name="org" value="{{ old('org') }}" placeholder="Pilih Penyelengara">
-
-                            <!-- error message untuk nama -->
-                            @error('org')
-                                <div class="alert alert-danger mt-2">
-                                    {{ $message }}
-                                </div>
-                            @enderror
-                        </div>
 
                         <button type="submit" class="btn btn-md btn-primary">SIMPAN</button>
                         <button type="reset" class="btn btn-md btn-warning">RESET</button>
