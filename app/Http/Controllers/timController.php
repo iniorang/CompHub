@@ -21,7 +21,6 @@ class timController extends Controller
 
         tim::create([
             'nama' => $request->nama,
-
         ]);
         return redirect()->route('index')->with(['success' => 'Data tim Tersimpan']);
     }

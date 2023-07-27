@@ -105,7 +105,8 @@
                     <div class="col-md-12">
                         <div class="card border-0 shadow-sm rounded">
                             <div class="card-body">
-                                <a href="{{ route('kompetisi.create') }}" class="btn btn-md btn-success mb-3">Tambah Kompetisi</a>
+                                <a href="{{ route('kompetisi.create') }}" class="btn btn-md btn-success mb-3">Tambah
+                                    Kompetisi</a>
                                 <a href="{{ route('kompetisi.pdf') }}" class="btn btn-primary" target="_blank">CETAK PDF</a>
                                 <table class="table table-bordered">
                                     <thead>
@@ -129,7 +130,7 @@
                                                     <form onsubmit="return confirm('Apakah Anda Yakin ?');"
                                                         action="{{ route('kompetisi.destroy', $c->id) }}" method="GET">
                                                         <a href="{{ route('kompetisi.detail', $c->id) }}"
-                                                            class="btn btn-sm btn-dark">SHOW</a>
+                                                            class="btn btn-sm btn-dark">Tampilkan</a>
                                                         <a href="{{ route('kompetisi.edit', $c->id) }}"
                                                             class="btn btn-sm btn-primary">Edit</a>
                                                         @csrf
@@ -158,44 +159,42 @@
                     <div class="col-md-12">
                         <div class="card border-0 shadow-sm rounded">
                             <div class="card-body">
-                                <a href="{{ route('user.create') }}" class="btn btn-md btn-success mb-3">Tambah
+                                <a href="{{ route('tim.create') }}" class="btn btn-md btn-success mb-3">Tambah
                                     User</a>
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
                                             <th scope="col">Id</th>
                                             <th scope="col">Nama</th>
-                                            <th scope="col">Nomor Telpon</th>
-                                            <th scope="col">Alamat</th>
-                                            <th scope="col">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @forelse ($user as $u)
+                                        @forelse ($tim as $t)
                                             <tr>
-                                                <td>{{ $u->id }}</td>
-                                                <td>{{ $u->name }}</td>
-                                                <td>{{ $u->telp }}</td>
-                                                <td>{{ $u->alamat }}</td>
+                                                <td>{{ $t->id }}</td>
+                                                <td>{{ $t->nama }}</td>
                                                 <td class="text-center">
                                                     <form onsubmit="return confirm('Apakah Anda Yakin ?');"
-                                                        action="{{ route('user.destroy', $u->id) }}" method="POST">
-                                                        <a href="{{ route('user.edit', $u->id) }}"
+                                                        action="{{ route('tim.destroy', $u->id) }}" method="POST">
+                                                        <a href="{{ route('tim.detail', $c->id) }}"
+                                                            class="btn btn-sm btn-dark">Detail</a>
+                                                        <a href="{{ route('tim.edit', $u->id) }}"
                                                             class="btn btn-sm btn-primary">Edit</a>
                                                         @csrf
                                                         @method('DELETE')
-                                                        <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                                                        <button type="submit"
+                                                            class="btn btn-sm btn-danger">Hapus</button>
                                                     </form>
                                                 </td>
                                             </tr>
                                         @empty
                                             <div class="alert alert-danger">
-                                                Data Peserta belum Tersedia.
+                                                Data Tim belum Tersedia.
                                             </div>
                                         @endforelse
                                     </tbody>
                                 </table>
-                                {{ $user->links() }}
+                                {{ $tim->links() }}
                             </div>
                         </div>
                     </div>
@@ -208,8 +207,50 @@
             </div>
         </div>
         <div class="tab-pane" id="org">
-            <div class="container">
-                <h1>Penyelanggara</h1>
+            <div class="container mt-5">
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card border-0 shadow-sm rounded">
+                            <div class="card-body">
+                                <a href="{{ route('org.create') }}" class="btn btn-md btn-success mb-3">Tambah
+                                    User</a>
+                                <table class="table table-bordered">
+                                    <thead>
+                                        <tr>
+                                            <th scope="col">Id</th>
+                                            <th scope="col">Nama</th>
+                                            <th scope="col">Aksi</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @forelse ($org as $o)
+                                            <tr>
+                                                <td>{{ $o->id }}</td>
+                                                <td>{{ $o->nama}}</td>
+                                                <td class="text-center">
+                                                    <form onsubmit="return confirm('Apakah Anda Yakin ?');"
+                                                        action="{{ route('org.destroy', $o->id) }}" method="POST">
+                                                        <a href="{{ route('org.edit', $o->id) }}"
+                                                            class="btn btn-sm btn-primary">Edit</a>
+                                                        @csrf
+                                                        @method('DELETE')
+                                                        <button type="submit"
+                                                            class="btn btn-sm btn-danger">Hapus</button>
+                                                    </form>
+                                                </td>
+                                            </tr>
+                                        @empty
+                                            <div class="alert alert-danger">
+                                                Data Penyelenggara belum Tersedia.
+                                            </div>
+                                        @endforelse
+                                    </tbody>
+                                </table>
+                                {{ $org->links() }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

@@ -27,11 +27,6 @@ class OrgController extends Controller
         return redirect()->route('index')->with(['success' => 'Organizer Terdaftar']);
     }
 
-    public function show(string $id): view
-    {
-        $organizer = organizer::findorfail($id);
-        return view('organizer.detail', compact('organizer'));
-    }
 
     public function edit(string $id): view
     {

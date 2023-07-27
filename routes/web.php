@@ -3,6 +3,8 @@
 use App\Http\Controllers\Auth\LoginController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KompetisiController;
+use App\Http\Controllers\OrgController;
+use App\Http\Controllers\timController;
 use App\Http\Controllers\UserController;
 
 
@@ -42,6 +44,18 @@ Route::middleware(['auth','user-access:admin'])->group(function(){
     Route::get('/admin/destroyUser/{id}',[UserController::class,'destroy'])->name('user.destroy');
     Route::get('/admin/edit/user/{id}',[UserController::class,'edit'])->name('user.edit');
     Route::put('/admin/update/user/{id}',[UserController::class,'update'])->name('user.update');
+
+    Route::get('/admin/create/org',[OrgController::class,'create'])->name('org.create');
+    Route::post('/admin/insert/org',[OrgController::class,'store'])->name('org.store');
+    Route::get('/admin/destroyOrg/{id}',[OrgController::class,'destroy'])->name('org.destroy');
+    Route::get('/admin/edit/org/{id}',[OrgController::class,'edit'])->name('org.edit');
+    Route::put('/admin/update/org/{id}',[OrgController::class,'update'])->name('org.update');
+
+    Route::get('/admin/create/tim',[timController::class,'create'])->name('tim.create');
+    Route::post('/admin/insert/tim',[timController::class,'store'])->name('tim.store');
+    Route::get('/admin/destroyTim/{id}',[timController::class,'destroy'])->name('tim.destroy');
+    Route::get('/admin/edit/tim/{id}',[timController::class,'edit'])->name('tim.edit');
+    Route::put('/admin/update/tim/{id}',[timController::class,'update'])->name('tim.update');
 });
 
 Route::match(['get','post'],'/logout', [LoginController::class, 'logout'])->name('logout');
