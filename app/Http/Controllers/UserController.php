@@ -126,4 +126,8 @@ class UserController extends Controller
         $user->delete();
         return redirect()->route('index')->with(['success' => 'Data User dihapus']);
     }
+
+    public function userJoin(){
+        
+    }
 }

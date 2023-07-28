@@ -8,7 +8,6 @@ use App\Models\User;
 use App\Models\organizer;
 use App\Models\tim;
 use Barryvdh\DomPDF\Facade\Pdf;
-use Illuminate\Contracts\Cache\Store;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -118,6 +117,19 @@ class KompetisiController extends Controller
     public function detail(string $id): view
     {
         $comp = kompetisi::findorfail($id);
+        return view('detailKomp', compact('comp'));
+    }
+
+    public function ikutKomp(Request $request, $id){
+        $comp = kompetisi::findorfail($id);
+        $user = Auth::user();
+
+        if ($user->kompetisis()->where('komps_id', $comp->id)->exists()) {
+            return redirect()->back()->with('status', 'Anda sudah terdaftar dalam kompetisi ini.');
+        }
+
+        $user->kompetisis()->attach($comp->id);
+        //return redirect()->back()->with('status', 'Anda berhasil mendaftar ke kompetisi.');
         return view('detailKomp', compact('comp'));
     }
 }

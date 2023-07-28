@@ -55,5 +55,7 @@ class User extends Authenticatable
         );
     }
 
-
+    public function kompetisis(){
+        return $this->belongsToMany(kompetisi::class,'user_ikut_komps','user_id','komps_id');
+    }
 }

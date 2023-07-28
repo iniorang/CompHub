@@ -15,4 +15,8 @@ class kompetisi extends Model
         'desk',
         'org',
     ];
+
+    public function peserta(){
+        return $this->belongsToMany(User::class,'user_ikut_komps','komps_id','user_id');
+    }
 }

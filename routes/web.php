@@ -30,6 +30,7 @@ Auth::routes();
 
 Route::middleware(['auth','user-access:user'])->group(function(){
     // Route::get('/profile',[UserController::class,''])->nama('profile');
+    Route::match(['get','post'],'/joinKomp/{id}',[KompetisiController::class,'ikutKomp'])->name('daftarsendiri');
 });
 
 Route::middleware(['auth','user-access:admin'])->group(function(){
