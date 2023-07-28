@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KompetisiController;
 use App\Http\Controllers\OrgController;
@@ -20,9 +21,11 @@ use App\Http\Controllers\UserController;
 */
 
 
-Route::get('/', function () {
-    return view('home');
-})->name('beranda');
+Route::get('/',[HomeController::class,'index'])->name('beranda');
+Route::get('/komp',[HomeController::class,'allkomp'])->name('showallcomp');
+Route::get('/komp/detail/{id}',[KompetisiController::class,'detail'])->name('detailk');
+Route::get('/tim',[HomeController::class,'alltim'])->name('showalltim');
+Route::get('/tim/detail/{id}',[timController::class,'show'])->name('detailt');
 Auth::routes();
 
 Route::middleware(['auth','user-access:user'])->group(function(){

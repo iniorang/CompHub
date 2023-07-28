@@ -114,4 +114,10 @@ class KompetisiController extends Controller
         $comp = Pdf::loadView('Kompetisi.CompPdf',['comp' => $comp]);
         return $comp->download('comp.pdf');
     }
+
+    public function detail(string $id): view
+    {
+        $comp = kompetisi::findorfail($id);
+        return view('detailKomp', compact('comp'));
+    }
 }

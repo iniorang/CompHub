@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\kompetisi;
+use App\Models\tim;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -11,10 +13,10 @@ class HomeController extends Controller
      *
      * @return void
      */
-    public function __construct()
-    {
-        $this->middleware('auth');
-    }
+    // public function __construct()
+    // {
+    //     $this->middleware('auth');
+    // }
 
     /**
      * Show the application dashboard.
@@ -23,6 +25,18 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('admin');
+        $comp = kompetisi::latest()->paginate(4);
+        $tim = tim::latest()->paginate(4);
+        return view('home',compact('comp','tim'));
+    }
+
+    public function allkomp(){
+        $comp = kompetisi::orderBy("nama","asc")->get();
+        return view('allKomp', compact('comp'));
+    }
+
+    public function alltim(){
+        $tim = tim::orderBy("nama","asc")->get();
+        return view('allTim', compact('tim'));
     }
 }
