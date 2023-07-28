@@ -103,7 +103,7 @@
         left: -30%;
         width: var(--nav-width);
         height: 100vh;
-        background-color: var(--first-color);
+        background-color: #198754;
         padding: .5rem 1rem 0 0;
         transition: .5s;
         z-index: var(--z-fixed)
@@ -127,12 +127,17 @@
     }
 
     .nav_logo {
-        margin-bottom: 2rem
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 
-    .nav_logo-icon {
-        font-size: 1.25rem;
-        color: var(--white-color)
+    .nav_logo img {
+        width: 50px; /* Set the width and height of the logo as desired */
+        height: 50px;
+        border-radius: 50%;
+        overflow: hidden;
     }
 
     .nav_logo-name {
@@ -227,8 +232,8 @@
                 <nav class="nav">
                     <div>
                         <div class="nav_logo">
-                            <i class='bx bx-layer nav_logo-icon'></i>
-                            <span class="nav_logo-name">BBBootstrap</span>
+                        <img src="{{ asset('images/logo1.png') }}" alt="Logo">
+                            <span class="nav_logo-name">CompHub</span>
                         </div>
                         <div class="nav_list nav">
                             <a href="#overview" class="nav_link active" data-bs-toggle="tab">
