@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -57,5 +58,9 @@ class User extends Authenticatable
 
     public function kompetisis(){
         return $this->belongsToMany(kompetisi::class,'user_ikut_komps','user_id','komps_id');
+    }
+
+    public function tim(): HasOne{
+        return $this->hasOne(tim::class);
     }
 }

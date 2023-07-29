@@ -34,6 +34,7 @@ Route::middleware(['auth','user-access:user'])->group(function(){
     Route::get('/profile/{id}',[UserController::class,'editprofile'])->name('profile');
     Route::put('/profile/update/{id}',[UserController::class,'updateProfil'])->name('profile.update');
     Route::get('/kompetisi/ikut/{id}',[KompetisiController::class,'lihatIkut'])->name('profile.ikut');
+    Route::get('/aturTim', [timController::class,'timDash'])->name('manajemenTim');
 });
 
 Route::middleware(['auth','user-access:admin'])->group(function(){

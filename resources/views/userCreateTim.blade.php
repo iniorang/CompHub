@@ -7,7 +7,6 @@
                 <div class="card border-0 shadow-sm rounded">
                     <div class="card-body">
                         <form action="{{ route('tim.store') }}" method="POST" enctype="multipart/form-data">
-
                             @csrf
                             <div class="form-group">
                                 <label class="font-weight-bold">Logo</label>
@@ -33,20 +32,7 @@
                                 @enderror
                             </div>
 
-                            <div class="form-group">
-                                <label class="font-weight-bold">Ketua Tim</label>
-                                <input type="text" class="form-control @error('ketua') is-invalid @enderror"
-                                    name="ketua" value="{{ old('ketua') }}" placeholder="Masukkan Ketua">
-
-                                <!-- error message untuk nama -->
-                                @error('ketua')
-                                    <div class="alert alert-danger mt-2">
-                                        {{ $message }}
-                                    </div>
-                                @enderror
-                            </div>
-
-                            <button type="submit" class="btn btn-md btn-primary">Simpan</button>
+                            <button type="submit" class="btn btn-md btn-primary">Buat</button>
                             <button type="reset" class="btn btn-md btn-warning">Reset</button>
 
                         </form>

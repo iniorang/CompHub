@@ -80,6 +80,7 @@
 
                                     <a class="dropdown-item" href="{{ route('profile', Auth::id()) }}">Profile</a>
                                     <a class="dropdown-item" href="{{ route('profile.ikut', Auth::id()) }}">Kompetisi yang terdaftar</a>
+                                    <a class="dropdown-item" href="{{ route('manajemenTim', Auth::id()) }}">Tim</a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf

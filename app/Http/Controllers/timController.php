@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\tim;
+use App\Models\User;
 use Illuminate\Contracts\View\View;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -96,12 +97,37 @@ class timController extends Controller
             'nama' => $request->nama,
             'ketua' => Auth::id(),
         ]);
-        return redirect()->route('beranda')->with(['success' => 'Tim Tersimpan']);
+        return redirect()->route('beranda')->with(['success' => 'Tim Terbuat']);
     }
 
-    public function edit(string $id): view
+    public function editTim(string $id): view
     {
         $tim = tim::findorfail($id);
         return view('tim.edit', compact('tim'));
+    }
+
+    public function timDash(){
+        $user = Auth::user();
+        $timUser = $user->tim;
+        $anggotaTim = $user->tim ? $user->tim->anggota : null;
+
+        return view('tim', compact('timUser', 'anggotaTim'));
+    }
+    public function keluarkanAnggota($id)
+    {
+        $anggota = User::findOrFail($id);
+        $anggota->delete();
+
+        return redirect()->back()->with('success', 'Anggota berhasil dikeluarkan dari tim.');
+    }
+
+    public function bubarkanTim()
+    {
+        $user = Auth::user();
+        $tim = $user->tim;
+        $tim->anggota()->delete();
+        $tim->delete();
+
+        return redirect()->route('manajemen_tim')->with('success', 'Tim berhasil dibubarkan.');
     }
 }

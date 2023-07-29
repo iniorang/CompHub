@@ -15,4 +15,14 @@ class tim extends Model
         'ketua',
         'desk'
     ];
+
+    public function ketua()
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function anggota()
+    {
+        return $this->hasMany(User::class, 'tim_id');
+    }
 }
