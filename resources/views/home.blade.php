@@ -19,7 +19,7 @@
             @empty
                 <div class="col">
                     <div class="alert alert-danger">
-                        Belum Ada Kompetisi terdaftar
+                        Belum Ada Kompetisi 
                     </div>
                 </div>
             @endforelse

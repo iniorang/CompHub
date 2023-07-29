@@ -9,7 +9,7 @@
             </div>
             <div class="col-3 card">
                 @if (Auth::check())
-                    @if (Auth::user()->kompetisis()->where('user    _id', $comp->id)->exists())
+                    @if (Auth::user()->kompetisis()->where('komps_id', $comp->id)->exists())
                         <p>Anda sudah terdaftar dalam kompetisi ini.</p>
                     @else
                         <form action="{{ route('daftarsendiri', ['id' => $comp->id]) }}" method="POST">

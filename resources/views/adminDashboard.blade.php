@@ -162,15 +162,16 @@
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
-                                            <th scope="col">Id</th>
+                                            <th scope="col">Logo</th>
                                             <th scope="col">Nama</th>
                                             <th scope="col">Ketua</th>
+                                            <th scope="col">Aksi</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @forelse ($tim as $t)
                                             <tr>
-                                                <td>{{ $t->id }}</td>
+                                                <td>{{ $t->logo }}</td>
                                                 <td>{{ $t->nama }}</td>
                                                 <td>{{ $t->ketua }}</td>
                                                 <td class="text-center">
@@ -213,7 +214,7 @@
                         <div class="card border-0 shadow-sm rounded">
                             <div class="card-body">
                                 <a href="{{ route('org.create') }}" class="btn btn-md btn-success mb-3">Tambah
-                                    User</a>
+                                    Penyelengara</a>
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>

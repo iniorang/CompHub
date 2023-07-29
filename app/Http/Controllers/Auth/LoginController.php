@@ -52,7 +52,7 @@ class LoginController extends Controller
             if (auth()->user()->type == 'admin') {
                 return redirect()->route('index');
             }else {
-                return redirect()->route('/');
+                return redirect()->route('beranda');
             }
         } else {
             return redirect()->route('login')->with('error', 'Email-Address And Password Are Wrong.');

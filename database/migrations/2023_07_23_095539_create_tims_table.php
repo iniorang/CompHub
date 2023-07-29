@@ -13,8 +13,10 @@ return new class extends Migration
     {
         Schema::create('tims', function (Blueprint $table) {
             $table->id();
+            $table->string('logo');
             $table->string('nama');
-            $table->unsignedBigInteger('ketua');
+            $table->text('desk');
+            $table->unsignedBigInteger('ketua')->nullable();
             $table->foreign('ketua')->references('id')->on('users');
             $table->timestamps();
         });

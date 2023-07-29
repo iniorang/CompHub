@@ -127,7 +127,33 @@ class UserController extends Controller
         return redirect()->route('index')->with(['success' => 'Data User dihapus']);
     }
 
-    public function userJoin(){
-        
+    public function editprofile($id)
+    {
+        $user = User::findorfail($id);
+        return view('profile',compact('user'));
+    }
+
+    public function updateProfil(Request $request, $id)
+    {
+        $this->validate($request, [
+            'name' => 'required',
+            'email' => 'required|email|',
+            'password',
+            'alamat',
+            'telp',
+        ]);
+
+        $user = User::findorfail($id);
+        $input = $request->all();
+        $input['password'] = Hash::make($input['password']);
+        $user->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'alamat' => $request->alamat,
+            'telp' => $request->telp,
+            'password' => $input['password']
+        ]);
+
+        return redirect()->route('profile',['id'=>$user->id])->with('success','Profile sudah terbarui');
     }
 }

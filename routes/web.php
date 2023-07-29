@@ -31,6 +31,9 @@ Auth::routes();
 Route::middleware(['auth','user-access:user'])->group(function(){
     // Route::get('/profile',[UserController::class,''])->nama('profile');
     Route::match(['get','post'],'/joinKomp/{id}',[KompetisiController::class,'ikutKomp'])->name('daftarsendiri');
+    Route::get('/profile/{id}',[UserController::class,'editprofile'])->name('profile');
+    Route::put('/profile/update/{id}',[UserController::class,'updateProfil'])->name('profile.update');
+    Route::get('/kompetisi/ikut/{id}',[KompetisiController::class,'lihatIkut'])->name('profile.ikut');
 });
 
 Route::middleware(['auth','user-access:admin'])->group(function(){

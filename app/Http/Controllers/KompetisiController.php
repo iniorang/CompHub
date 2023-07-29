@@ -132,4 +132,11 @@ class KompetisiController extends Controller
         //return redirect()->back()->with('status', 'Anda berhasil mendaftar ke kompetisi.');
         return view('detailKomp', compact('comp'));
     }
+
+    public function lihatIkut(){
+        $user = Auth::user();
+        $comp = $user->kompetisis()->get();
+
+        return view('historyIkut',compact('comp'));
+    }
 }

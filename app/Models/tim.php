@@ -10,7 +10,9 @@ class tim extends Model
     use HasFactory;
 
     protected $fillable =[
+        'logo',
         'nama',
-        'ketua'
+        'ketua',
+        'desk'
     ];
 }

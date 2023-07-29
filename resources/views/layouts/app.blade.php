@@ -23,7 +23,7 @@
         <nav class="navbar navbar-expand-md navbar-light bg-success shadow-sm">
             <div class="container">
             <img src="{{ asset('images/logo1.png') }}" alt="logo1" style="max-width: 5%;" href="{{ route('beranda') }}">
-                 
+
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                     data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
@@ -67,7 +67,7 @@
 
                                 <a id="navbarDropdown" class="nav-link dropdown-toggle text-white" href="#" role="button"
                                     data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                         
+
                                     {{ Auth::user()->name }}
                                 </a>
 
@@ -78,7 +78,8 @@
                                         {{ __('Logout') }}
                                     </a>
 
-                                    <a class="dropdown-item" href="#">Profile</a>
+                                    <a class="dropdown-item" href="{{ route('profile', Auth::id()) }}">Profile</a>
+                                    <a class="dropdown-item" href="{{ route('profile.ikut', Auth::id()) }}">Kompetisi yang terdaftar</a>
 
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
                                         @csrf
