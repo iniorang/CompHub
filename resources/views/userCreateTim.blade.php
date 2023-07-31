@@ -1,4 +1,4 @@
-@extends('layouts.polos')
+@extends('layouts.app')
 
 @section('content')
     <div class="container mt-5 mb-5">
@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <div class="card border-0 shadow-sm rounded">
                     <div class="card-body">
-                        <form action="{{ route('tim.store') }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('create.tim.user') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="form-group">
                                 <label class="font-weight-bold">Logo</label>
@@ -31,6 +31,18 @@
                                     </div>
                                 @enderror
                             </div>
+                            <div class="form-group">
+                                <label class="font-weight-bold">Deskripsi</label>
+                                <textarea class="form-control @error('desk') is-invalid @enderror" name="desk" rows="5"
+                                    placeholder="Masukkan Deskripsi Tim">{{ old('desk') }}</textarea>
+
+                                <!-- error message untuk content -->
+                                @error('desk')
+                                    <div class="alert alert-danger mt-2">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
 
                             <button type="submit" class="btn btn-md btn-primary">Buat</button>
                             <button type="reset" class="btn btn-md btn-warning">Reset</button>
@@ -41,4 +53,8 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('desk');
+    </script>
 @endsection

@@ -8,7 +8,7 @@
                 <div class="col">
                     <a href="{{ route('detailt', $t->id) }}" style="text-decoration: none; color: black;">
                         <div class="card" style="width: 18rem;">
-                            <img src="{{ asset('/storage/tim/' . $t->img) }}" class="card-img-top" alt="...">
+                            <img src="{{ asset('/storage/timlogo/' . $t->logo) }}" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h5 class="card-title">{{ $t->nama }}</h5>
                             </div>

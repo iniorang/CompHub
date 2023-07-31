@@ -35,6 +35,8 @@ Route::middleware(['auth','user-access:user'])->group(function(){
     Route::put('/profile/update/{id}',[UserController::class,'updateProfil'])->name('profile.update');
     Route::get('/kompetisi/ikut/{id}',[KompetisiController::class,'lihatIkut'])->name('profile.ikut');
     Route::get('/aturTim', [timController::class,'timDash'])->name('manajemenTim');
+    Route::get('/timcreation', [timController::class,'showBuat'])->name('show.timCreation.user');
+    Route::post('/timbuat',[timController::class,'buatTim'])->name('create.tim.user');
 });
 
 Route::middleware(['auth','user-access:admin'])->group(function(){

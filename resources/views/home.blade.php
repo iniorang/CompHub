@@ -35,7 +35,7 @@
                             <img src="{{ asset('/storage/timlogo/' . $t->logo) }}" class="card-img-top" alt="...">
                             <div class="card-body">
                                 <h5 class="card-title">{{ $t->nama }}</h5>
-                                <p class="card-text">{!! $c->desk !!}</p>
+                                <p class="card-text">{!! $t->desk !!}</p>
                             </div>
                         </div>
                     </a>

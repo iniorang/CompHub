@@ -87,6 +87,11 @@ class timController extends Controller
         return redirect()->route('index')->with(['success' => 'Data tim dihapus']);
     }
 
+    //User
+    public function showBuat(): View
+    {
+        return view('userCreateTim');
+    }
     public function buatTim(Request $request): RedirectResponse
     {
         $this->validate($request, [
@@ -100,7 +105,9 @@ class timController extends Controller
         tim::create([
             'logo' => $logo->hashName(),
             'nama' => $request->nama,
+            'desk' => $request->desk,
             'ketua' => Auth::id(),
+            
         ]);
         return redirect()->route('beranda')->with(['success' => 'Tim Terbuat']);
     }
@@ -112,11 +119,14 @@ class timController extends Controller
     }
 
     public function timDash(){
-        $user = Auth::user();
-        $timUser = $user->tim;
-        $anggotaTim = $user->tim ? $user->tim->anggota : null;
+        $user = auth()->user();
+        $tim = null;
 
-        return view('tim', compact('timUser', 'anggotaTim'));
+        if ($user->tim_id) {
+            $tim = Tim::with('anggota')->findOrFail($user->tim_id);
+        }
+
+        return view('tim', compact('tim'));
     }
     public function keluarkanAnggota($id)
     {
