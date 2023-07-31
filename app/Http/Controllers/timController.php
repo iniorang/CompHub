@@ -22,6 +22,7 @@ class timController extends Controller
         $this->validate($request, [
             'logo' => 'required|image|mimes:jpeg,jpg,png|max:2048',
             'nama' => 'required|min:5',
+            'desk' => 'required',
             'ketua' => 'required'
         ]);
 
@@ -31,6 +32,7 @@ class timController extends Controller
         tim::create([
             'logo' => $logo->hashName(),
             'nama' => $request->nama,
+            'desk' => $request->desk,
             'ketua' => $request->ketua,
         ]);
         return redirect()->route('index')->with(['success' => 'Data tim Tersimpan']);
@@ -53,6 +55,7 @@ class timController extends Controller
         $this->validate($request, [
             'logo' => 'image|mimes:jpeg,jpg,png|max:2048',
             'nama' => 'min:5',
+            'desk',
             'ketua'
         ]);
         $tim = tim::findorfail($id);
@@ -63,11 +66,13 @@ class timController extends Controller
             $tim->update([
                 'logo' => $logo->hashName(),
                 'nama' => $request->nama,
+                'desk' => $request->desk,
                 'ketua' => $request->ketua,
             ]);
         }else{
             $tim->update([
                 'nama' => $request->nama,
+                'desk' => $request->desk,
                 'ketua' => $request->ketua
             ]);
         }

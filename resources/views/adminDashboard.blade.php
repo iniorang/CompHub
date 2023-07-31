@@ -171,7 +171,10 @@
                                     <tbody>
                                         @forelse ($tim as $t)
                                             <tr>
-                                                <td>{{ $t->logo }}</td>
+                                                <td class="text-center">
+                                                    <img src="{{ asset('/storage/timlogo/' . $t->logo) }}"
+                                                        class="rounded" style="width: 150px">
+                                                </td>
                                                 <td>{{ $t->nama }}</td>
                                                 <td>{{ $t->ketua }}</td>
                                                 <td class="text-center">

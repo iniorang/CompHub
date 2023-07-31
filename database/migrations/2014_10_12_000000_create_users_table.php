@@ -20,7 +20,6 @@ return new class extends Migration
             $table->integer('telp')->unsigned()->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->unsignedBigInteger('anggotaTim')->nullable();
-            $table->foreign('anggotaTim')->references('id')->on('tims');
             $table->string('password');
             $table->rememberToken();
             $table->timestamps();

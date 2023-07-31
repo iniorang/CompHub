@@ -28,6 +28,19 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="font-weight-bold">Deskripsi</label>
+                                <textarea class="form-control @error('content') is-invalid @enderror" name="desk" rows="5"
+                                    placeholder="Masukkan Deskripsi">{{ old('desk', $tim->desk) }}</textarea>
+
+                                <!-- error message untuk content -->
+                                @error('content')
+                                    <div class="alert alert-danger mt-2">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
                                 <label class="font-weight-bold">Ketua Tim</label>
                                 <input type="text" class="form-control @error('ketua') is-invalid @enderror"
                                     name="ketua" value="{{ old('ketua', $tim->ketua) }}" placeholder="Masukkan Ketuaa">
@@ -49,4 +62,8 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('desk');
+    </script>
 @endsection

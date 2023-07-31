@@ -17,7 +17,6 @@ return new class extends Migration
             $table->string('nama');
             $table->text('desk');
             $table->unsignedBigInteger('ketua')->nullable();
-            $table->foreign('ketua')->references('id')->on('users');
             $table->timestamps();
         });
     }

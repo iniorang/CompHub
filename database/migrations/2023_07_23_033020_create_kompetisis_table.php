@@ -17,9 +17,7 @@ return new class extends Migration
             $table->string('nama');
             $table->text('desk');
             $table->unsignedBigInteger('org');
-            $table->unsignedBigInteger('tim');
             $table->foreign('org')->references('id')->on('organizers');
-            $table->foreign('tim')->references('id')->on('tims');
             $table->timestamps();
         });
     }

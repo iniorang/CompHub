@@ -10,7 +10,8 @@
                             @csrf
                             <div class="form-group">
                                 <label class="font-weight-bold">Logo</label>
-                                <input type="file" class="form-control @error('logo') is-invalid @enderror" name="logo">
+                                <input type="file" class="form-control @error('logo') is-invalid @enderror"
+                                    name="logo">
 
                                 <!-- error message untuk nama -->
                                 @error('logo')
@@ -26,6 +27,19 @@
 
                                 <!-- error message untuk nama -->
                                 @error('nama')
+                                    <div class="alert alert-danger mt-2">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+
+                            <div class="form-group">
+                                <label class="font-weight-bold">Deskripsi</label>
+                                <textarea class="form-control @error('desk') is-invalid @enderror" name="desk" rows="5"
+                                    placeholder="Masukkan Deskripsi Tim">{{ old('desk') }}</textarea>
+
+                                <!-- error message untuk content -->
+                                @error('desk')
                                     <div class="alert alert-danger mt-2">
                                         {{ $message }}
                                     </div>
@@ -54,4 +68,8 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script>
+    <script>
+        CKEDITOR.replace('desk');
+    </script>
 @endsection
