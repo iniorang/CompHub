@@ -44,7 +44,7 @@
                             <div class="form-group">
                                 <label class="font-weight-bold">Penyelengara</label>
                                 <select class="form-control @error('org') is-invalid @enderror" name="org">
-                                    <option value="{{ $org->id }}">Pilih Penyelengara</option>
+                                    <option value="">Pilih Penyelengara</option>
                                     @foreach ($org as $o)
                                         <option value="{{ $o->id }}"
                                             {{ old('org', $comp->organizer_id) == $o->id ? 'selected' : '' }}>
