@@ -21,9 +21,9 @@ return new class extends Migration
         //     $table->foreign('org')->references('id')->on('organizers');
         // });
 
-        // Schema::table('tims', function (Blueprint $table) {
-        //     $table->foreign('ketua')->references('id')->on('users');
-        // });
+        Schema::table('tims', function (Blueprint $table) {
+            $table->foreign('ketua')->references('id')->on('users');
+        });
 
     }
 

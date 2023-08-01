@@ -13,8 +13,8 @@
             <tr>
                 <td>{{ $i++ }}</td>
                 <td>{{ $c->nama }}</td>
-                <td>{{ $c->desk }}</td>
-                <td>{{ $c->org }}</td>
+                <td>{!! $c->desk !!}</td>
+                <td>{{ $c->organizer->nama }}</td>
             </tr>
         @endforeach
     </tbody>

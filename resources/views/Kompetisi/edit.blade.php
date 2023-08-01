@@ -17,7 +17,8 @@
                             <div class="form-group">
                                 <label class="font-weight-bold">Nama</label>
                                 <input type="text" class="form-control @error('nama') is-invalid @enderror"
-                                    name="nama" value="{{ old('nama', $comp->nama) }}" placeholder="Masukkan Nama Kompetisi">
+                                    name="nama" value="{{ old('nama', $comp->nama) }}"
+                                    placeholder="Masukkan Nama Kompetisi">
 
                                 <!-- error message untuk title -->
                                 @error('nama')
@@ -41,15 +42,18 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="font-weight-bold">Penyelanggara</label>
-                                <input type="text" class="form-control @error('org') is-invalid @enderror"
-                                    name="org" value="{{ old('org', $comp->org) }}" placeholder="Pilih Penyelanggara">
-
-                                <!-- error message untuk title -->
+                                <label class="font-weight-bold">Penyelengara</label>
+                                <select class="form-control @error('org') is-invalid @enderror" name="org">
+                                    <option value="{{ $org->id }}">Pilih Penyelengara</option>
+                                    @foreach ($org as $o)
+                                        <option value="{{ $o->id }}"
+                                            {{ old('org', $comp->organizer_id) == $o->id ? 'selected' : '' }}>
+                                            {{ $o->nama }}
+                                        </option>
+                                    @endforeach
+                                </select>
                                 @error('org')
-                                    <div class="alert alert-danger mt-2">
-                                        {{ $message }}
-                                    </div>
+                                    <div class="alert alert-danger mt-2">{{ $message }}</div>
                                 @enderror
                             </div>
 
@@ -66,8 +70,6 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script src="https://cdn.ckeditor.com/4.13.1/standard/ckeditor.js"></script>
     <script>
-        CKEDITOR.replace( 'desk' );
+        CKEDITOR.replace('desk');
     </script>
 @endsection
-
-

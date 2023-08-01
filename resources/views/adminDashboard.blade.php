@@ -103,15 +103,17 @@
                     <div class="col-md-12">
                         <div class="card border-0 shadow-sm rounded">
                             <div class="card-body">
-                                <a href="{{ route('kompetisi.create') }}" class="btn btn-md btn-success mb-3">Tambah
-                                    Kompetisi</a>
-                                <a href="{{ route('kompetisi.pdf') }}" class="btn btn-primary" target="_blank">CETAK PDF</a>
+                                <div class="container my-4">
+                                    <a href="{{ route('kompetisi.create') }}" class="btn btn-md btn-success">Tambah Kompetisi</a>
+                                    <a href="{{ route('kompetisi.pdf') }}" class="btn btn-primary" target="_blank">Export ke PDF</a>
+                                </div>
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
                                             <th scope="col">Thumbnail</th>
                                             <th scope="col">Nama</th>
                                             <th scope="col">Deskripsi</th>
+                                            <th scope="col">Penyelenggara</th>
                                             <th scope="col">Aksi</th>
                                         </tr>
                                     </thead>
@@ -124,11 +126,12 @@
                                                 </td>
                                                 <td>{{ $c->nama }}</td>
                                                 <td>{!! $c->desk !!}</td>
+                                                <td>{{ $c->organizer->nama }}</td>
                                                 <td class="text-center">
                                                     <form onsubmit="return confirm('Apakah Anda Yakin ?');"
                                                         action="{{ route('kompetisi.destroy', $c->id) }}" method="GET">
-                                                        <a href="{{ route('kompetisi.detail', $c->id) }}"
-                                                            class="btn btn-sm btn-dark">Tampilkan</a>
+                                                        {{-- <a href="{{ route('kompetisi.detail', $c->id) }}"
+                                                            class="btn btn-sm btn-dark">Tampilkan</a> --}}
                                                         <a href="{{ route('kompetisi.edit', $c->id) }}"
                                                             class="btn btn-sm btn-primary">Edit</a>
                                                         @csrf
@@ -180,8 +183,8 @@
                                                 <td class="text-center">
                                                     <form onsubmit="return confirm('Apakah Anda Yakin ?');"
                                                         action="{{ route('tim.destroy', $t->id) }}" method="POST">
-                                                        <a href="{{ route('tim.detail', $t->id) }}"
-                                                            class="btn btn-sm btn-dark">Detail</a>
+                                                        {{-- <a href="{{ route('tim.detail', $t->id) }}"
+                                                            class="btn btn-sm btn-dark">Detail</a> --}}
                                                         <a href="{{ route('tim.edit', $t->id) }}"
                                                             class="btn btn-sm btn-primary">Edit</a>
                                                         @csrf

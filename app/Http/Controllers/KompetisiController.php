@@ -27,12 +27,17 @@ class KompetisiController extends Controller
         $tim_count = tim::count();
         $user_count = user::count();
         $comp_count = kompetisi::count();
-        return view('adminDashboard', compact('comp','user','org','tim','org_count','tim_count','user_count','comp_count'));
+        // $competition = Kompetisi::findOrFail($id);
+
+        //$organizer = $competition->organizer->nama;
+
+        return view('adminDashboard', compact('comp','user','org','tim','org_count','tim_count','user_count','comp_count',));
     }
 
     public function create(): View
     {
-        return view('kompetisi.create');
+        $org = Organizer::all();
+        return view('kompetisi.create',compact('org'));
     }
 
     public function store(Request $request): RedirectResponse
@@ -60,13 +65,15 @@ class KompetisiController extends Controller
     public function show(string $id): view
     {
         $comp = kompetisi::findorfail($id);
+
         return view('kompetisi.detail', compact('comp'));
     }
 
     public function edit(string $id): view
     {
         $comp = kompetisi::findorfail($id);
-        return view('kompetisi.edit', compact('comp'));
+        $org = Organizer::all();
+        return view('kompetisi.edit', compact('comp','org'));
     }
 
     public function update(Request $request, $id): RedirectResponse

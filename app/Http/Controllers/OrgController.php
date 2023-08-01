@@ -32,8 +32,6 @@ class OrgController extends Controller
     {
         $organizer = organizer::findorfail($id);
         return view('organizer.edit', compact('organizer'));
-
-
     }
 
     public function update(Request $request, $id): RedirectResponse

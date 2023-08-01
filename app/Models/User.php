@@ -27,7 +27,8 @@ class User extends Authenticatable
         'password',
         'type',
         'alamat',
-        'telp'
+        'telp',
+        'anggotaTim'
     ];
 
     /**
@@ -61,6 +62,6 @@ class User extends Authenticatable
     }
 
     public function tim(): HasOne{
-        return $this->hasOne(tim::class);
+        return $this->hasOne(tim::class,'id');
     }
 }

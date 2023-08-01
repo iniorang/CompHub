@@ -23,7 +23,7 @@ class timController extends Controller
             'logo' => 'required|image|mimes:jpeg,jpg,png|max:2048',
             'nama' => 'required|min:5',
             'desk' => 'required',
-            'ketua' => 'required'
+            'ketua'
         ]);
 
         $logo = $request->file('logo');
@@ -33,7 +33,7 @@ class timController extends Controller
             'logo' => $logo->hashName(),
             'nama' => $request->nama,
             'desk' => $request->desk,
-            'ketua' => $request->ketua,
+
         ]);
         return redirect()->route('index')->with(['success' => 'Data tim Tersimpan']);
     }
@@ -69,7 +69,7 @@ class timController extends Controller
                 'desk' => $request->desk,
                 'ketua' => $request->ketua,
             ]);
-        }else{
+        } else {
             $tim->update([
                 'nama' => $request->nama,
                 'desk' => $request->desk,
@@ -102,14 +102,17 @@ class timController extends Controller
         $logo = $request->file('logo');
         $logo->storeAs('public/timlogo', $logo->hashName());
 
-        tim::create([
+        $tim = tim::create([
             'logo' => $logo->hashName(),
             'nama' => $request->nama,
             'desk' => $request->desk,
             'ketua' => Auth::id(),
-            
         ]);
-        return redirect()->route('beranda')->with(['success' => 'Tim Terbuat']);
+        $user = Auth::user();
+        $user->anggotatim = $tim->id;
+        $user->save();
+
+        return redirect()->route('tim')->with(['success' => 'Tim Terbuat']);
     }
 
     public function editTim(string $id): view
@@ -118,8 +121,9 @@ class timController extends Controller
         return view('tim.edit', compact('tim'));
     }
 
-    public function timDash(){
-        $user = auth()->user();
+    public function timDash()
+    {
+        $user = Auth::user();
         $tim = null;
 
         if ($user->tim_id) {
@@ -128,21 +132,61 @@ class timController extends Controller
 
         return view('tim', compact('tim'));
     }
-    public function keluarkanAnggota($id)
+
+    public function ikutTim($timId)
     {
-        $anggota = User::findOrFail($id);
-        $anggota->delete();
+        $user = auth()->user();
+        $tim = Tim::find($timId);
 
-        return redirect()->back()->with('success', 'Anggota berhasil dikeluarkan dari tim.');
+        if ($tim && !$user->anggotatim) {
+            $user->anggotatim = $tim->id;
+            $user->save();
+
+            return redirect()->route('manajemenTim', ['id' => $tim->id])->with('success', 'Anda berhasil bergabung ke tim.');
+        }
+
+        return redirect()->route('detailt')->with('error', 'Gagal bergabung ke tim.');
     }
-
-    public function bubarkanTim()
+    public function kick($userId)
     {
         $user = Auth::user();
-        $tim = $user->tim;
-        $tim->anggota()->delete();
-        $tim->delete();
+        $tim = Tim::findOrFail($user->tim_id);
 
-        return redirect()->route('manajemen_tim')->with('success', 'Tim berhasil dibubarkan.');
+        if ($user->id === $tim->ketua) {
+            $tim->anggota()->detach($userId);
+
+            $anggota = User::findOrFail($userId);
+            $anggota->anggotaTim = null;
+            $anggota->save();
+
+            return redirect()->route('manajemenTim')->with('success', 'Anggota berhasil dikeluarkan dari tim.');
+        } else {
+            return redirect()->route('manajemenTim')->with('error', 'Anda tidak memiliki izin untuk melakukan ini.');
+        }
+    }
+
+    public function bubarkan()
+    {
+        $user = Auth::user();
+        $tim = Tim::findOrFail($user->tim_id);
+
+        if ($user->id === $tim->ketua) {
+            $tim->anggota()->detach();
+
+            $tim->delete();
+
+            $user->anggotaTim = null;
+            $user->save();
+
+            return redirect()->route('tim.dashboard')->with('success', 'Tim telah dibubarkan.');
+        } else {
+            return redirect()->route('tim.dashboard')->with('error', 'Anda tidak memiliki izin untuk melakukan ini.');
+        }
+    }
+
+    public function detail(string $id): view
+    {
+        $tim = tim::findorfail($id);
+        return view('detailTim', compact('tim'));
     }
 }
