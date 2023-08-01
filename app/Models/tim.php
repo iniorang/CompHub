@@ -18,11 +18,11 @@ class tim extends Model
 
     public function ketua()
     {
-        return $this->belongsTo(User::class, 'id');
+        return $this->belongsTo(User::class, 'ketua');
     }
 
     public function anggota()
     {
-        return $this->hasMany(User::class, 'tim_id');
+        return $this->hasMany(User::class, 'anggotaTim');
     }
 }

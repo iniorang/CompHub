@@ -2,13 +2,13 @@
 
 @section('content')
     <div class="container">
-        @if ($tim)
+        @if ($tim && is_object($tim))
             <h2>Nama Tim: {{ $tim->nama }}</h2>
             {{-- Tampilkan informasi lainnya tentang tim --}}
 
-            @if ($tim->ketua === Auth::user()->id)
-                {{-- Jika user adalah ketua tim, tampilkan opsi untuk bubarkan tim dan keluarkan anggota --}}
-                <form action="{{ route('tim.bubarkan') }}" method="POST">
+            @if (auth()->user()->type === 'admin' || auth()->user()->id === $tim->ketua)
+                {{-- Jika user adalah admin atau ketua tim, tampilkan opsi untuk membubarkan tim dan mengeluarkan anggota --}}
+                <form action="{{ route('disband', $tim->id) }}" method="POST">
                     @csrf
                     <button type="submit" onclick="return confirm('Anda yakin ingin membubarkan tim?')">Bubarkan Tim</button>
                 </form>
@@ -21,7 +21,7 @@
                         @foreach ($tim->anggota as $anggota)
                             <li>
                                 {{ $anggota->name }}
-                                <form action="{{ route('tim.keluarkan', $anggota->id) }}" method="POST">
+                                <form action="{{ route('kick', $anggota->id) }}" method="POST">
                                     @csrf
                                     <button type="submit" onclick="return confirm('Anda yakin ingin mengeluarkan anggota ini dari tim?')">Keluarkan</button>
                                 </form>

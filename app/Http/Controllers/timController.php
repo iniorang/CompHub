@@ -92,6 +92,7 @@ class timController extends Controller
     {
         return view('userCreateTim');
     }
+
     public function buatTim(Request $request): RedirectResponse
     {
         $this->validate($request, [
@@ -126,8 +127,8 @@ class timController extends Controller
         $user = Auth::user();
         $tim = null;
 
-        if ($user->tim_id) {
-            $tim = Tim::with('anggota')->findOrFail($user->tim_id);
+        if ($user->anggotaTim) {
+            $tim = Tim::with('anggota')->findOrFail($user->anggotaTim);
         }
 
         return view('tim', compact('tim'));
@@ -149,39 +150,32 @@ class timController extends Controller
     }
     public function kick($userId)
     {
-        $user = Auth::user();
-        $tim = Tim::findOrFail($user->tim_id);
+        $user = User::findOrFail($userId);
 
-        if ($user->id === $tim->ketua) {
-            $tim->anggota()->detach($userId);
-
-            $anggota = User::findOrFail($userId);
-            $anggota->anggotaTim = null;
-            $anggota->save();
-
-            return redirect()->route('manajemenTim')->with('success', 'Anggota berhasil dikeluarkan dari tim.');
-        } else {
-            return redirect()->route('manajemenTim')->with('error', 'Anda tidak memiliki izin untuk melakukan ini.');
-        }
-    }
-
-    public function bubarkan()
-    {
-        $user = Auth::user();
-        $tim = Tim::findOrFail($user->tim_id);
-
-        if ($user->id === $tim->ketua) {
-            $tim->anggota()->detach();
-
-            $tim->delete();
-
+        if (auth()->user()->id === $user->tim->ketua) {
             $user->anggotaTim = null;
             $user->save();
 
-            return redirect()->route('tim.dashboard')->with('success', 'Tim telah dibubarkan.');
-        } else {
-            return redirect()->route('tim.dashboard')->with('error', 'Anda tidak memiliki izin untuk melakukan ini.');
+            return redirect()->back()->with('success', 'Anggota berhasil dikeluarkan dari tim.');
         }
+
+        return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk mengeluarkan anggota dari tim.');
+    }
+
+    public function bubarkan($id)
+    {
+        // Find the tim by its ID
+        $tim = Tim::findOrFail($id);
+
+        // Check if the logged-in user is an admin or the ketua of the tim
+        if (auth()->user()->type === 'admin' || auth()->user()->id === $tim->ketua) {
+            // Delete the tim and its anggota (if any) from the database
+            $tim->anggota()->delete();
+            $tim->delete();
+
+            return redirect()->route('beranda')->with('success', 'Tim berhasil dibubarkan.');
+        }
+        return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk membubarkan tim.');
     }
 
     public function detail(string $id): view

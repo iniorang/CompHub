@@ -25,7 +25,7 @@ Route::get('/',[HomeController::class,'index'])->name('beranda');
 Route::get('/komp',[HomeController::class,'allkomp'])->name('showallcomp');
 Route::get('/komp/detail/{id}',[KompetisiController::class,'detail'])->name('detailk');
 Route::get('/tim',[HomeController::class,'alltim'])->name('showalltim');
-Route::get('/tim/detail/{id}',[timController::class,'show'])->name('detailt');
+Route::get('/tim/detail/{id}',[timController::class,'detail'])->name('detailt');
 Auth::routes();
 
 Route::middleware(['auth','user-access:user'])->group(function(){
@@ -37,6 +37,9 @@ Route::middleware(['auth','user-access:user'])->group(function(){
     Route::get('/aturTim', [timController::class,'timDash'])->name('manajemenTim');
     Route::get('/timcreation', [timController::class,'showBuat'])->name('show.timCreation.user');
     Route::post('/timbuat',[timController::class,'buatTim'])->name('create.tim.user');
+    Route::post('/tim/{timId}', [TimController::class, 'ikutTim'])->name('ikuttim');
+    Route::post('/tim/kick/{userId}',[timController::class, 'kick'])->name('kick');
+    Route::post('/tim/disaband/{timId}',[timController::class, 'bubarkan'])->name('disband');
 });
 
 Route::middleware(['auth','user-access:admin'])->group(function(){
