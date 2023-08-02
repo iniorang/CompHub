@@ -16,6 +16,7 @@ return new class extends Migration
             $table->string('img');
             $table->string('nama');
             $table->text('desk');
+            $table->decimal('harga_daftar', 10, 2)->nullable();
             $table->unsignedBigInteger('org');
             $table->foreign('org')->references('id')->on('organizers');
             $table->timestamps();

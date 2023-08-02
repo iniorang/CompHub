@@ -1,4 +1,5 @@
 @extends('layouts.app')
+
 @section('content')
     <div class="container">
         <div class="row gx-5">
@@ -12,10 +13,17 @@
                     @if (Auth::user()->kompetisis()->where('komps_id', $comp->id)->exists())
                         <p>Anda sudah terdaftar dalam kompetisi ini.</p>
                     @else
-                        <form action="{{ route('daftarsendiri', ['id' => $comp->id]) }}" method="POST">
-                            @csrf
-                            <button type="submit">Ikuti Kompetisi</button>
-                        </form>
+                        @if ($comp->harga_daftar > 0)
+                            <form action="{{ route('daftarsendiri', ['id' => $comp->id]) }}" method="POST">
+                                @csrf
+                                <button type="submit">Ikuti Kompetisi ({{ $comp->harga_daftar }})</button>
+                            </form>
+                        @else
+                            <form action="{{ route('daftarsendiri', ['id' => $comp->id]) }}" method="POST">
+                                @csrf
+                                <button type="submit">Ikuti Kompetisi (Gratis)</button>
+                            </form>
+                        @endif
                     @endif
                 @else
                     <p>Silakan login untuk mengikuti kompetisi.</p>

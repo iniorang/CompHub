@@ -27,7 +27,21 @@
                                     </div>
                                 @enderror
                             </div>
+                            
+                            <div class="form-group">
+                                <label class="font-weight-bold">Harga Daftar</label>
+                                <input type="text" class="form-control @error('harga_daftar') is-invalid @enderror"
+                                    name="daftar" value="{{ old('harga_daftar', $comp->harga_daftar) }}"
+                                    placeholder="Harga daftar kompetisi">
 
+                                <!-- error message untuk title -->
+                                @error('nama')
+                                    <div class="alert alert-danger mt-2">
+                                        {{ $message }}
+                                    </div>
+                                @enderror
+                            </div>
+                            
                             <div class="form-group">
                                 <label class="font-weight-bold">Deskripsi</label>
                                 <textarea class="form-control @error('content') is-invalid @enderror" name="desk" rows="5"
@@ -40,6 +54,7 @@
                                     </div>
                                 @enderror
                             </div>
+
 
                             <div class="form-group">
                                 <label class="font-weight-bold">Penyelengara</label>

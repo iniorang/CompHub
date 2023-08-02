@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Transaksi;
 use Illuminate\Contracts\View\View;
 use App\Models\kompetisi;
 use App\Models\User;
@@ -46,7 +47,8 @@ class KompetisiController extends Controller
             'img' => 'required|image|mimes:jpeg,jpg,png|max:2048',
             'nama' => 'required|min:5',
             'desk' => 'required|min:10',
-            'org' => 'required'
+            'org' => 'required',
+            'harga_daftar',
         ]);
 
         $img = $request->file('img');
@@ -56,8 +58,8 @@ class KompetisiController extends Controller
             'img' => $img->hashName(),
             'nama' => $request->nama,
             'desk' => $request->desk,
-            'org' => $request->org
-
+            'org' => $request->org,
+            'harga_daftar' => $request->daftar
         ]);
         return redirect()->route('index')->with(['success' => 'Data Kompetisi Tersimpan']);
     }
@@ -83,7 +85,8 @@ class KompetisiController extends Controller
             'img' => 'image|mimes:jpeg,jpg,png|max:2048',
             'nama' => 'required|min:5',
             'desk' => 'required|min:10',
-            'org' => 'required'
+            'org' => 'required',
+            'harga_daftar'
         ]);
 
         $comp = kompetisi::findorfail($id);
@@ -96,12 +99,14 @@ class KompetisiController extends Controller
                 'nama' => $request->nama,
                 'desk' => $request->desk,
                 'org' => $request->org,
+                'harga_daftar' => $request->daftar
             ]);
         } else {
             $comp->update([
                 'nama' => $request->nama,
                 'desk' => $request->desk,
                 'org' => $request->org,
+                'harga_daftar' => $request->daftar
             ]);
         }
         return redirect()->route('index')->with(['success' => 'Data Kompetisi Terubah']);
@@ -127,16 +132,30 @@ class KompetisiController extends Controller
         return view('detailKomp', compact('comp'));
     }
 
-    public function ikutKomp(Request $request, $id){
-        $comp = kompetisi::findorfail($id);
+    public function ikutKomp(Request $request, $id)
+    {
+        $comp = kompetisi::findOrFail($id);
         $user = Auth::user();
-
+    
         if ($user->kompetisis()->where('komps_id', $comp->id)->exists()) {
             return redirect()->back()->with('status', 'Anda sudah terdaftar dalam kompetisi ini.');
         }
-
+    
+        // Jika harga daftar tidak kosong, buat transaksi dengan nilai harga_daftar dari kompetisi
+        if ($comp->harga_daftar > 0) {
+            // Buat transaksi
+            $totalPembayaran = $comp->harga_daftar;
+            $transaksi = new Transaksi([
+                'kompetisi_id' => $comp->id,
+                'total' => $totalPembayaran,
+                'status' => true, // Langsung diverifikasi karena kompetisi gratis
+            ]);
+            $user->transaksis()->save($transaksi);
+        }
+    
+        // Attach kompetisi ke user
         $user->kompetisis()->attach($comp->id);
-        //return redirect()->back()->with('status', 'Anda berhasil mendaftar ke kompetisi.');
+    
         return view('detailKomp', compact('comp'));
     }
 

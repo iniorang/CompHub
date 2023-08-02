@@ -14,6 +14,7 @@ class kompetisi extends Model
         'nama',
         'desk',
         'org',
+        'harga_daftar'
     ];
 
     public function peserta(){
@@ -22,5 +23,9 @@ class kompetisi extends Model
 
     public function organizer(){
         return $this->belongsTo(organizer::class,'org');
+    }
+    
+    public function transaksi(){
+        return $this->hasMany(Transaksi::class);
     }
 }
