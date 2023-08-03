@@ -42,7 +42,7 @@
                                     </div>
                                 </div>
 
-                                <div class="form-group row">
+                                {{-- <div class="form-group row">
                                     <label for="password" class="col-md-4 col-form-label text-md-right">Password</label>
 
                                     <div class="col-md-6">
@@ -55,7 +55,7 @@
                                             </span>
                                         @enderror
                                     </div>
-                                </div>
+                                </div> --}}
 
                                 <div class="form-group row">
                                     <label for="alamat" class="col-md-4 col-form-label text-md-right">Alamat</label>
@@ -94,6 +94,7 @@
                                         <button type="submit" class="btn btn-primary">
                                             Update
                                         </button>
+                                        <a href="{{ route('konfirmasi.matikan') }}" class="btn btn-danger">Deactivate Account</a>
                                     </div>
                                 </div>
                             </form>
@@ -102,4 +103,5 @@
                 </div>
             </div>
         </div>
+
     @endsection

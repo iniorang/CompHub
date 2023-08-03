@@ -49,13 +49,18 @@ class LoginController extends Controller
         ]);
 
         if (auth()->attempt(array('email' => $input['email'], 'password' => $input['password']))) {
+            if (auth()->user()->disabled) {
+                auth()->logout();
+                return redirect()->route('login')->with('error', 'Akun Anda telah dinonaktifkan.');
+            }
+
             if (auth()->user()->type == 'admin') {
                 return redirect()->route('index');
-            }else {
+            } else {
                 return redirect()->route('beranda');
             }
         } else {
-            return redirect()->route('login')->with('error', 'Email-Address And Password Are Wrong.');
+            return redirect()->route('login')->with('error', 'Email dan Password Salah.');
         }
     }
 }

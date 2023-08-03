@@ -33,6 +33,8 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::match(['get', 'post'], '/joinKomp/{id}', [KompetisiController::class, 'ikutKomp'])->name('daftarsendiri');
     Route::get('/profile/{id}', [UserController::class, 'editprofile'])->name('profile');
     Route::put('/profile/update/{id}', [UserController::class, 'updateProfil'])->name('profile.update');
+    Route::get('/profile/confirm/matikan', [UserController::class, 'deactivationForm'])->name('konfirmasi.matikan');
+    Route::put('/profile/matikan',[UserController::class, 'deactivate'])->name('matikanakun');
     Route::get('/kompetisi/ikut/{id}', [KompetisiController::class, 'lihatIkut'])->name('profile.ikut');
     Route::get('/aturTim', [timController::class, 'timDash'])->name('manajemenTim');
     Route::get('/timcreation', [timController::class, 'showBuat'])->name('show.timCreation.user');

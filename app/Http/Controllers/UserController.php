@@ -9,6 +9,7 @@ use Spatie\Permission\Models\Role;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -124,7 +125,7 @@ class UserController extends Controller
     public function destroy($id)
     {
         $user = user::findOrFail($id);
-        $user->delete();
+        $user->forceDelete();
         return redirect()->route('index')->with(['success' => 'Data User dihapus']);
     }
 
@@ -139,20 +140,20 @@ class UserController extends Controller
         $this->validate($request, [
             'name' => 'required',
             'email' => 'required|email|',
-            'password',
+            //'password',
             'alamat',
             'telp',
         ]);
 
         $user = User::findorfail($id);
         $input = $request->all();
-        $input['password'] = Hash::make($input['password']);
+        //$input['password'] = Hash::make($input['password']);
         $user->update([
             'name' => $request->name,
             'email' => $request->email,
             'alamat' => $request->alamat,
             'telp' => $request->telp,
-            'password' => $input['password']
+            //'password' => $input['password']
         ]);
 
         return redirect()->route('profile', ['id' => $user->id])->with('success', 'Profile sudah terbarui');
@@ -164,7 +165,7 @@ class UserController extends Controller
         $user->disabled = true;
         $user->save();
 
-        return redirect()->route('listdisabled')->with('success', 'User account deactivated successfully.');
+        return redirect()->route('listdisabled')->with('success', 'Akun Sudah dimatikan.');
     }
 
     public function listDisabledUsers()
@@ -179,7 +180,7 @@ class UserController extends Controller
         $user->disabled = false;
         $user->save();
 
-        return redirect()->route('index')->with('success', 'User reactivated successfully.');
+        return redirect()->route('listdisabled')->with('success', 'Akun dihidupkan kembali.');
     }
 
     public function destroyUser($id)
@@ -188,5 +189,22 @@ class UserController extends Controller
         $user->forceDelete();
 
         return redirect()->route('users.disabled')->with('success', 'User permanently deleted.');
+    }
+
+    public function deactivate(Request $request)
+    {
+        // Nonaktifkan akun
+        Auth::user()->update([
+            'disabled' => true,
+        ]);
+        Auth::logout();
+
+        // Redirect ke halaman login
+        return redirect()->route('beranda')->with('status', 'Your account has been deactivated.');
+    }
+
+    public function deactivationForm()
+    {
+        return view('matikanakun');
     }
 }

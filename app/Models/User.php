@@ -28,7 +28,8 @@ class User extends Authenticatable
         'type',
         'alamat',
         'telp',
-        'anggotaTim'
+        'anggotaTim',
+        'disabled',
     ];
 
     /**
