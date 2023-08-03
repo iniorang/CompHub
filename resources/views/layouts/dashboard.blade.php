@@ -252,6 +252,10 @@
                                 <i class='bx bx-group nav_icon'></i>
                                 <span class="nav_name">Tim</span>
                             </a>
+                            <a href="#trans" class="nav_link" data-bs-toggle="tab">
+                                <i class='bx bx-group nav_icon'></i>
+                                <span class="nav_name">Transaksi</span>
+                            </a>
                             <a href="#org" class="nav_link" data-bs-toggle="tab">
                                 <i class='bx bxs-balloon nav_icon'></i>
                                 <span class="nav_name">Penyelenggara</span>

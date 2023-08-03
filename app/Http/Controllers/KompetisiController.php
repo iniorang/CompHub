@@ -31,10 +31,10 @@ class KompetisiController extends Controller
         // $competition = Kompetisi::findOrFail($id);
 
         //$organizer = $competition->organizer->nama;
-        $transactions = Transaction::with('user', 'kompetisi')->paginate(10);
+        $transactions = Transaksi::with('user', 'kompetisi')->paginate(10);
 
 
-        return view('adminDashboard', compact('comp','user','org','tim','org_count','tim_count','user_count','comp_count',));
+        return view('adminDashboard', compact('comp','user','org','tim','org_count','tim_count','user_count','comp_count','transactions'));
     }
 
     public function create(): View
@@ -139,11 +139,11 @@ class KompetisiController extends Controller
     {
         $comp = kompetisi::findOrFail($id);
         $user = Auth::user();
-    
+
         if ($user->kompetisis()->where('komps_id', $comp->id)->exists()) {
             return redirect()->back()->with('status', 'Anda sudah terdaftar dalam kompetisi ini.');
         }
-    
+
         // Jika harga daftar tidak kosong, buat transaksi dengan nilai harga_daftar dari kompetisi
         if ($comp->harga_daftar > 0) {
             // Buat transaksi
@@ -155,10 +155,10 @@ class KompetisiController extends Controller
             ]);
             $user->transaksis()->save($transaksi);
         }
-    
+
         // Attach kompetisi ke user
         $user->kompetisis()->attach($comp->id);
-    
+
         return view('detailKomp', compact('comp'));
     }
 
