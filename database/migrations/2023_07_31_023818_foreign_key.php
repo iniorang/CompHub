@@ -16,10 +16,6 @@ return new class extends Migration
             $table->foreign('anggotaTim')->references('id')->on('tims')->nullabale();
         });
 
-        // Schema::table('kompetisis', function (Blueprint $table) {
-        //     // $table->unsignedBigInteger('org');
-        //     $table->foreign('org')->references('id')->on('organizers');
-        // });
 
         Schema::table('tims', function (Blueprint $table) {
             $table->foreign('ketua')->references('id')->on('users');

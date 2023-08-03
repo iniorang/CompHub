@@ -1,3 +1,5 @@
+<!-- tim/show.blade.php -->
+
 @extends('layouts.app')
 
 @section('content')
@@ -12,14 +14,10 @@
                 <div class="col-3 card">
                     @auth
                         @if (!auth()->user()->tim)
-                            {{-- Jika user belum terdaftar di tim --}}
                             <form action="{{ route('ikuttim', ['timId' => $tim->id]) }}" method="POST">
                                 @csrf
                                 <button type="submit">Ikut Tim</button>
                             </form>
-                        @else
-                            {{-- Jika user sudah terdaftar di tim --}}
-                            <p>Anda sudah tergabung dalam tim.</p>
                         @endif
                     @endauth
 

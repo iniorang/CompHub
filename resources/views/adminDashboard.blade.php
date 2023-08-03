@@ -51,8 +51,8 @@
                     <div class="col-md-12">
                         <div class="card border-0 shadow-sm rounded">
                             <div class="card-body">
-                                <a href="{{ route('user.create') }}" class="btn btn-md btn-success mb-3">Tambah
-                                    User</a>
+                                <a href="{{ route('user.create') }}" class="btn btn-md btn-success mb-3">Tambah User</a>
+                                <a href="{{ route('listdisabled') }}" class="btn btn-md btn-success mb-3">List akun mati</a>
                                 <table class="table table-bordered">
                                     <thead>
                                         <tr>
@@ -73,12 +73,12 @@
                                                 <td>{{ $u->telp }}</td>
                                                 <td>{{ $u->alamat }}</td>
                                                 <td class="text-center">
-                                                    <form onsubmit="return confirm('Apakah Anda Yakin ?');"
-                                                        action="{{ route('user.destroy', $u->id) }}" method="POST">
+                                                    <form onsubmit="return confirm('Apakah Anda Yakin Memamtikan User ini?');"
+                                                        action="{{ route('disable.user', $u->id) }}" method="POST">
                                                         <a href="{{ route('user.edit', $u->id) }}"
                                                             class="btn btn-sm btn-primary">Edit</a>
                                                         @csrf
-                                                        @method('DELETE')
+                                                        @method('PUT')
                                                         <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
                                                     </form>
                                                 </td>
@@ -130,8 +130,8 @@
                                                 <td class="text-center">
                                                     <form onsubmit="return confirm('Apakah Anda Yakin ?');"
                                                         action="{{ route('kompetisi.destroy', $c->id) }}" method="GET">
-                                                        {{-- <a href="{{ route('kompetisi.detail', $c->id) }}"
-                                                            class="btn btn-sm btn-dark">Tampilkan</a> --}}
+                                                        <a href="{{ route('kompetisi.detail', $c->id) }}"
+                                                            class="btn btn-sm btn-dark">Tampilkan</a>
                                                         <a href="{{ route('kompetisi.edit', $c->id) }}"
                                                             class="btn btn-sm btn-primary">Edit</a>
                                                         @csrf
@@ -210,7 +210,53 @@
         </div>
         <div class="tab-pane" id="trans">
             <div class="container">
-                <h1>Transaksi</h1>
+                <div class="tab-pane" id="transaksi">
+                    <div class="container mt-5">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="card border-0 shadow-sm rounded">
+                                    <div class="card-body">
+                                        <div class="container my-4">
+                                            <!-- Add any buttons or links related to transactions here -->
+                                        </div>
+                                        <table class="table table-bordered">
+                                            <thead>
+                                                <tr>
+                                                    <th scope="col">ID</th>
+                                                    <th scope="col">User</th>
+                                                    <th scope="col">Kompetisi</th>
+                                                    <th scope="col">Total Pembayaran</th>
+                                                    <th scope="col">Status</th>
+                                                    <th scope="col">Aksi</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @forelse ($transactions as $transaction)
+                                                    <tr>
+                                                        <td>{{ $transaction->id }}</td>
+                                                        <td>{{ $transaction->user->name }}</td>
+                                                        <td>{{ $transaction->kompetisi->nama }}</td>
+                                                        <td>{{ $transaction->total_pembayaran }}</td>
+                                                        <td>{{ $transaction->verified ? 'Verified' : 'Not Verified' }}</td>
+                                                        <td class="text-center">
+                                                            <!-- Add any action buttons or links related to transactions here -->
+                                                        </td>
+                                                    </tr>
+                                                @empty
+                                                    <tr>
+                                                        <td colspan="6" class="text-center">No transactions found.</td>
+                                                    </tr>
+                                                @endforelse
+                                            </tbody>
+                                        </table>
+                                        <!-- Add pagination links if needed -->
+                                        {{ $transactions->links() }}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
         <div class="tab-pane" id="org">

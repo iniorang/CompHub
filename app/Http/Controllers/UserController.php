@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\Models\User;
@@ -13,8 +14,8 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        $data = User::orderBy('id','DESC')->paginate(5);
-        return view('users.index',compact('data'))
+        $data = User::orderBy('id', 'DESC')->paginate(5);
+        return view('users.index', compact('data'))
             ->with('i', ($request->input('page', 1) - 1) * 5);
     }
 
@@ -56,7 +57,7 @@ class UserController extends Controller
             'password' => $input['password']
         ]);
 
-        return redirect()->route('index')->with('success','User terbuat');
+        return redirect()->route('index')->with('success', 'User terbuat');
     }
 
     /**
@@ -68,7 +69,7 @@ class UserController extends Controller
     public function show($id)
     {
         $user = User::find($id);
-        return view('user.show',compact('user'));
+        return view('user.show', compact('user'));
     }
 
     /**
@@ -80,7 +81,7 @@ class UserController extends Controller
     public function edit($id)
     {
         $user = User::findorfail($id);
-        return view('user.edit',compact('user'));
+        return view('user.edit', compact('user'));
     }
 
     /**
@@ -111,7 +112,7 @@ class UserController extends Controller
             'password' => $input['password']
         ]);
 
-        return redirect()->route('index')->with('success','User terubah');
+        return redirect()->route('index')->with('success', 'User terubah');
     }
 
     /**
@@ -130,7 +131,7 @@ class UserController extends Controller
     public function editprofile($id)
     {
         $user = User::findorfail($id);
-        return view('profile',compact('user'));
+        return view('profile', compact('user'));
     }
 
     public function updateProfil(Request $request, $id)
@@ -154,6 +155,38 @@ class UserController extends Controller
             'password' => $input['password']
         ]);
 
-        return redirect()->route('profile',['id'=>$user->id])->with('success','Profile sudah terbarui');
+        return redirect()->route('profile', ['id' => $user->id])->with('success', 'Profile sudah terbarui');
+    }
+
+    public function disableUser($id)
+    {
+        $user = User::findOrFail($id);
+        $user->disabled = true;
+        $user->save();
+
+        return redirect()->route('listdisabled')->with('success', 'User account deactivated successfully.');
+    }
+
+    public function listDisabledUsers()
+    {
+        $disabledUsers = User::where('disabled', true)->get();
+        return view('user.disabled_list', compact('disabledUsers'));
+    }
+
+    public function reactivateUser($id)
+    {
+        $user = User::findOrFail($id);
+        $user->disabled = false;
+        $user->save();
+
+        return redirect()->route('index')->with('success', 'User reactivated successfully.');
+    }
+
+    public function destroyUser($id)
+    {
+        $user = User::onlyTrashed()->findOrFail($id);
+        $user->forceDelete();
+
+        return redirect()->route('users.disabled')->with('success', 'User permanently deleted.');
     }
 }

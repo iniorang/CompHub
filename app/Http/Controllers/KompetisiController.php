@@ -20,7 +20,7 @@ class KompetisiController extends Controller
         $user = Auth::user();
         $org = organizer::latest()->paginate(10);
         $comp = kompetisi::latest()->paginate(10);
-        $user = user::latest()->paginate(10);
+        $user = User::where('disabled', false)->latest()->paginate(10);
         $tim = tim::latest()->paginate(10);
 
         $org_count = organizer::count();
@@ -30,6 +30,8 @@ class KompetisiController extends Controller
         // $competition = Kompetisi::findOrFail($id);
 
         //$organizer = $competition->organizer->nama;
+        $transactions = Transaction::with('user', 'kompetisi')->paginate(10);
+
 
         return view('adminDashboard', compact('comp','user','org','tim','org_count','tim_count','user_count','comp_count',));
     }
@@ -64,9 +66,9 @@ class KompetisiController extends Controller
 
     public function show(string $id): view
     {
-        $comp = kompetisi::findorfail($id);
-
-        return view('kompetisi.detail', compact('comp'));
+        $comp = kompetisi::with('peserta')->findOrFail($id);
+        $part = $comp->peserta;
+        return view('kompetisi.detail', compact('comp','part'));
     }
 
     public function edit(string $id): view
@@ -109,6 +111,7 @@ class KompetisiController extends Controller
 
     public function destroy($id): RedirectResponse{
         $comp = kompetisi::findOrFail($id);
+        $comp->peserta()->detach();
         Storage::delete('public/competition' . $comp->image);
         $comp->delete();
         return redirect()->route('index')->with(['success' => 'Data Kompetisi dihapus']);

@@ -83,6 +83,7 @@ class timController extends Controller
     {
         $tim = tim::findOrFail($id);
         Storage::delete('public/timlogo' . $tim->image);
+        $tim->anggota()->update(['anggotaTim' => null]);
         $tim->delete();
         return redirect()->route('index')->with(['success' => 'Data tim dihapus']);
     }
@@ -113,7 +114,7 @@ class timController extends Controller
         $user->anggotatim = $tim->id;
         $user->save();
 
-        return redirect()->route('tim')->with(['success' => 'Tim Terbuat']);
+        return redirect()->route('manajemenTim')->with(['success' => 'Tim Terbuat']);
     }
 
     public function editTim(string $id): view
@@ -140,14 +141,15 @@ class timController extends Controller
         $tim = Tim::find($timId);
 
         if ($tim && !$user->anggotatim) {
-            $user->anggotatim = $tim->id;
+            $user->anggotaTim = $tim->id;
             $user->save();
 
             return redirect()->route('manajemenTim', ['id' => $tim->id])->with('success', 'Anda berhasil bergabung ke tim.');
         }
 
-        return redirect()->route('detailt')->with('error', 'Gagal bergabung ke tim.');
+        return redirect()->route('beranda')->with('gagal', 'Gagal mendaftarkan diri ke tim');
     }
+
     public function kick($userId)
     {
         $user = User::findOrFail($userId);
@@ -164,13 +166,12 @@ class timController extends Controller
 
     public function bubarkan($id)
     {
-        // Find the tim by its ID
-        $tim = Tim::findOrFail($id);
+        $tim = tim::findOrFail($id);
 
-        // Check if the logged-in user is an admin or the ketua of the tim
         if (auth()->user()->type === 'admin' || auth()->user()->id === $tim->ketua) {
-            // Delete the tim and its anggota (if any) from the database
-            $tim->anggota()->delete();
+            User::where('anggotaTim', $tim->id)->update(['anggotaTim' => null]);
+            //$tim = tim::findOrFail($id);
+            Storage::delete('public/timlogo' . $tim->image);
             $tim->delete();
 
             return redirect()->route('beranda')->with('success', 'Tim berhasil dibubarkan.');
@@ -182,5 +183,25 @@ class timController extends Controller
     {
         $tim = tim::findorfail($id);
         return view('detailTim', compact('tim'));
+    }
+
+    public function keluarTim(Request $request)
+    {
+        $user = $request->user();
+
+        if ($user->anggotaTim) {
+            $tim = Tim::find($user->anggotaTim);
+            if ($tim) {
+                if ($tim->ketua->id === $user->id) {
+                    $tim->anggota()->delete();
+                    $tim->delete();
+                    return redirect()->route('beranda')->with('success', 'Tim berhasil dibubarkan.');
+                }
+                $user->anggotaTim = null;
+                $user->save();
+                return redirect()->route('beranda')->with('success', 'Anda telah keluar dari tim.');
+            }
+        }
+        return redirect()->back()->with('error', 'Anda belum tergabung dalam tim.');
     }
 }

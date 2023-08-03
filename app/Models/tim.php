@@ -23,6 +23,6 @@ class tim extends Model
 
     public function anggota()
     {
-        return $this->hasMany(User::class, 'anggotaTim');
+        return $this->hasMany(User::class, 'id');
     }
 }
