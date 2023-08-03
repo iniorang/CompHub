@@ -51,17 +51,23 @@ class User extends Authenticatable
         'password' => 'hashed',
     ];
 
-    protected function type(): Attribute{
+    protected function type(): Attribute
+    {
         return new Attribute(
-            get: fn ($value) => ["user","admin"][$value],
+            get: fn($value) => ["user", "admin"][$value],
         );
     }
 
-    public function kompetisis(){
-        return $this->belongsToMany(kompetisi::class,'user_ikut_komps','user_id','komps_id');
+    public function kompetisis()
+    {
+        return $this->belongsToMany(kompetisi::class, 'user_ikut_komps', 'user_id', 'komps_id');
     }
 
-    public function tim(): HasOne{
-        return $this->hasOne(tim::class,'id');
+    public function tim(): HasOne
+    {
+        return $this->hasOne(tim::class, 'id');
+    }
+    public function transaksis(){
+        return $this->hasMany(Transaksi::class);
     }
 }
