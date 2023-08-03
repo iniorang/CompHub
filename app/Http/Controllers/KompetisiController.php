@@ -144,9 +144,7 @@ class KompetisiController extends Controller
             return redirect()->back()->with('status', 'Anda sudah terdaftar dalam kompetisi ini.');
         }
 
-        // Jika harga daftar tidak kosong, buat transaksi dengan nilai harga_daftar dari kompetisi
         if ($comp->harga_daftar > 0) {
-            // Buat transaksi
             $totalPembayaran = $comp->harga_daftar;
             $transaksi = new Transaksi([
                 'kompetisi_id' => $comp->id,

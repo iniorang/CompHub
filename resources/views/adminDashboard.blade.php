@@ -236,7 +236,7 @@
                                                         <td>{{ $transaction->id }}</td>
                                                         <td>{{ $transaction->user->name }}</td>
                                                         <td>{{ $transaction->kompetisi->nama }}</td>
-                                                        <td>{{ $transaction->total_pembayaran }}</td>
+                                                        <td>{{ $transaction->total }}</td>
                                                         <td>{{ $transaction->verified ? 'Verified' : 'Not Verified' }}</td>
                                                         <td class="text-center">
                                                             <!-- Add any action buttons or links related to transactions here -->
@@ -244,7 +244,7 @@
                                                     </tr>
                                                 @empty
                                                     <tr>
-                                                        <td colspan="6" class="text-center">No transactions found.</td>
+                                                        <td colspan="6" class="text-center">Tidak ada Transaksi.</td>
                                                     </tr>
                                                 @endforelse
                                             </tbody>
