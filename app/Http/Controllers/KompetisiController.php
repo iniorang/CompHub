@@ -149,7 +149,6 @@ class KompetisiController extends Controller
             $transaksi = new Transaksi([
                 'kompetisi_id' => $comp->id,
                 'total' => $totalPembayaran,
-                'status' => true, // Langsung diverifikasi karena kompetisi gratis
             ]);
             $user->transaksis()->save($transaksi);
         }

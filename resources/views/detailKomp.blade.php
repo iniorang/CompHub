@@ -10,8 +10,16 @@
             </div>
             <div class="col-3 card">
                 @if (Auth::check())
-                    @if (Auth::user()->kompetisis()->where('komps_id', $comp->id)->exists())
-                        <p>Anda sudah terdaftar dalam kompetisi ini.</p>
+                    @php
+                        $transaction = Auth::user()->transaksis()->where('kompetisi_id', $comp->id)->first();
+                    @endphp
+
+                    @if ($transaction)
+                        @if ($transaction->status)
+                            <p>Anda sudah ikut dalam kompetisi ini.</p>
+                        @else
+                            <p>Admin akan memproses transaksi Anda.</p>
+                        @endif
                     @else
                         @if ($comp->harga_daftar > 0)
                             <form action="{{ route('daftarsendiri', ['id' => $comp->id]) }}" method="POST">

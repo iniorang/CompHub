@@ -8,51 +8,33 @@ use Illuminate\Http\Request;
 
 class TransaksiController extends Controller
 {
-    public function create(Request $request)
+    public function verify($id)
     {
-        $request->validate([
-            'kompetisi_id' => 'required|exists:kompetisis,id',
-            'bukti_pembayaran' => 'required|image|mimes:jpeg,jpg,png|max:2048',
-        ]);
+        $transaction = Transaksi::findOrFail($id);
+        $transaction->status = true;
+        $transaction->save();
 
-        $kompetisi = kompetisi::findOrFail($request->kompetisi_id);
-        $totalPembayaran = $kompetisi->harga_masuk ?? 0;
-
-        $file = $request->file('bukti_pembayaran');
-        $buktiPembayaran = $file->store('bukti_pembayaran', 'public');
-
-        Transaksi::create([
-            'user_id' => auth()->user()->id,
-            'kompetisi_id' => $request->kompetisi_id,
-            'total_pembayaran' => $totalPembayaran,
-            'bukti_pembayaran' => $buktiPembayaran,
-            'verified' => false,
-        ]);
-
-        return redirect()->route('verifikasi')->with('success', 'Transaksi berhasil dibuat. Silakan tunggu verifikasi dari admin.');
+        return redirect()->route('index')->with('success', 'Transaksi berhasil diverifikasi.');
     }
 
-    public function verifikasi()
+    public function cancel($id)
     {
-        $transaksis = Transaksi::where('verified', false)->get();
+        $transaction = Transaksi::findOrFail($id);
 
-        return view('verifikasi', compact('transaksis'));
-    }
+        if (!$transaction) {
+            // Transaksi tidak ditemukan, berikan respon sesuai kebutuhan (misalnya notifikasi)
+            return redirect()->back()->with('error', 'Transaksi tidak ditemukan.');
+        }
 
-    public function verifikasiTransaksi($id)
-    {
-        $transaksi = Transaksi::findOrFail($id);
-        $transaksi->verified = true;
-        $transaksi->save();
+        // Hapus data dari tabel user_ikut_komps jika ada
+        if ($transaction->user && $transaction->kompetisi) {
+            $transaction->user->kompetisis()->detach($transaction->kompetisi->id);
+        }
 
-        return redirect()->route('verifikasi')->with('success', 'Transaksi berhasil diverifikasi.');
-    }
+        // Hapus transaksi
+        $transaction->delete();
 
-    public function hapusTransaksi($id)
-    {
-        $transaksi = Transaksi::findOrFail($id);
-        $transaksi->delete();
-
-        return redirect()->route('verifikasi')->with('success', 'Transaksi berhasil dihapus.');
+        // Berikan respon sesuai kebutuhan (misalnya notifikasi)
+        return redirect()->route('index')->with('success', 'Transaksi berhasil dibatalkan.');
     }
 }

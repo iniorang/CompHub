@@ -6,8 +6,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\KompetisiController;
 use App\Http\Controllers\OrgController;
 use App\Http\Controllers\timController;
+use App\Http\Controllers\TransaksiController;
 use App\Http\Controllers\UserController;
-
+use App\Models\Transaksi;
 
 /*
 |--------------------------------------------------------------------------
@@ -78,6 +79,9 @@ Route::middleware(['auth', 'user-access:admin'])->group(function () {
     Route::get('/admin/detail/tim/{id}', [timController::class, 'show'])->name('tim.detail');
     Route::get('/admin/edit/tim/{id}', [timController::class, 'edit'])->name('tim.edit');
     Route::put('/admin/update/tim/{id}', [timController::class, 'update'])->name('tim.update');
+
+    Route::get('/transactions/{id}/verify', [TransaksiController::class, 'verify'])->name('transactions.verify');
+Route::get('/transactions/{id}/cancel', [TransaksiController::class, 'cancel'])->name('transactions.cancel');
 });
 
 Route::match(['get', 'post'], '/logout', [LoginController::class, 'logout'])->name('logout');

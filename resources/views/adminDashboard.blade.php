@@ -237,9 +237,12 @@
                                                         <td>{{ $transaction->user->name }}</td>
                                                         <td>{{ $transaction->kompetisi->nama }}</td>
                                                         <td>{{ $transaction->total }}</td>
-                                                        <td>{{ $transaction->verified ? 'Verified' : 'Not Verified' }}</td>
+                                                        <td>{{ $transaction->status ? 'Verified' : 'Not Verified' }}</td>
                                                         <td class="text-center">
-                                                            <!-- Add any action buttons or links related to transactions here -->
+                                                            <a href="{{ route('transactions.verify', $transaction->id) }}"
+                                                                class="btn btn-sm btn-primary">Verifikasi</a>
+                                                            <a href="{{ route('transactions.cancel', $transaction->id) }}"
+                                                                class="btn btn-sm btn-danger">Batalkan</a>
                                                         </td>
                                                     </tr>
                                                 @empty

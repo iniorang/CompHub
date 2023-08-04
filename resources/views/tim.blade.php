@@ -3,11 +3,11 @@
 @section('content')
     <div class="container">
         @if ($tim)
-        <h2>Nama Tim: {{ $tim->nama }}</h2>
-        <form action="{{ route('resign') }}" method="POST">
-            @csrf
-            <button type="submit">Keluar dari Tim</button>
-        </form>
+            <h2>Nama Tim: {{ $tim->nama }}</h2>
+            <form action="{{ route('resign') }}" method="POST">
+                @csrf
+                <button type="submit">Keluar dari Tim</button>
+            </form>
 
             {{-- Tampilkan informasi lainnya tentang tim --}}
 
@@ -19,21 +19,27 @@
                 </form>
 
                 <h3>Anggota Tim:</h3>
-                @if ($tim->anggota->isEmpty())
-                    <p>Tim ini belum memiliki anggota.</p>
+                @if ($tim->anggotaTim)
+                    @if ($tim->anggotaTim->isEmpty())
+                        <p>Tim ini belum memiliki anggota.</p>
+                    @else
+                        <ul>
+                            @foreach ($tim->anggotaTim as $anggota)
+                                @if ($anggota->id !== $tim->ketua)
+                                    <li>
+                                        {{ $anggota->name }}
+                                        <form action="{{ route('kick', $anggota->id) }}" method="POST">
+                                            @csrf
+                                            <button type="submit"
+                                                onclick="return confirm('Anda yakin ingin mengeluarkan anggota ini dari tim?')">Keluarkan</button>
+                                        </form>
+                                    </li>
+                                @endif
+                            @endforeach
+                        </ul>
+                    @endif
                 @else
-                    <ul>
-                        @foreach ($tim->anggota as $anggota)
-                            <li>
-                                {{ $anggota->name }}
-                                <form action="{{ route('kick', $anggota->id) }}" method="POST">
-                                    @csrf
-                                    <button type="submit"
-                                        onclick="return confirm('Anda yakin ingin mengeluarkan anggota ini dari tim?')">Keluarkan</button>
-                                </form>
-                            </li>
-                        @endforeach
-                    </ul>
+                    <p>Tim ini belum memiliki anggota.</p>
                 @endif
             @endif
         @else

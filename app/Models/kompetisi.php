@@ -24,7 +24,7 @@ class kompetisi extends Model
     public function organizer(){
         return $this->belongsTo(organizer::class,'org');
     }
-    
+
     public function transaksi(){
         return $this->hasMany(Transaksi::class);
     }

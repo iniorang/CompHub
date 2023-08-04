@@ -1,5 +1,3 @@
-<!-- tim/show.blade.php -->
-
 @extends('layouts.app')
 
 @section('content')
@@ -13,7 +11,9 @@
                 </div>
                 <div class="col-3 card">
                     @auth
-                        @if (!auth()->user()->tim)
+                        @if (auth()->user()->tim && auth()->user()->tim->id === $tim->id)
+                            <p>Anda sudah ikut tim.</p>
+                        @else
                             <form action="{{ route('ikuttim', ['timId' => $tim->id]) }}" method="POST">
                                 @csrf
                                 <button type="submit">Ikut Tim</button>
