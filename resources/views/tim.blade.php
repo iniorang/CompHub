@@ -10,7 +10,7 @@
         @else
             <ul>
                 @foreach ($user->tim as $tim)
-                    <li>{{ $tim->nama }}</li>
+                <li><a href="{{ route('dashboardTim', ['id' => $tim->id]) }}">{{ $tim->nama }}</a></li>
                 @endforeach
             </ul>
         @endif

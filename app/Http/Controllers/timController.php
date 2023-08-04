@@ -106,23 +106,48 @@ class timController extends Controller
         $logo = $request->file('logo');
         $logo->storeAs('public/timlogo', $logo->hashName());
 
-        $tim = tim::create([
+        $tim = Tim::create([
             'logo' => $logo->hashName(),
             'nama' => $request->nama,
             'desk' => $request->desk,
             'ketua' => Auth::id(),
         ]);
-        $user = Auth::user();
-        $user->anggotatim = $tim->id;
-        $user->save();
+        Auth::user()->tim()->attach($tim);
 
         return redirect()->route('manajemenTim')->with(['success' => 'Tim Terbuat']);
     }
+
 
     public function editTim(string $id): view
     {
         $tim = tim::findorfail($id);
         return view('tim.edit', compact('tim'));
+    }
+
+    public function updateTim(Request $request, $id): RedirectResponse
+    {
+        $this->validate($request, [
+            'logo' => 'image|mimes:jpeg,jpg,png|max:2048',
+            'nama' => 'min:5',
+            'desk',
+        ]);
+        $tim = tim::findorfail($id);
+        if ($request->hasFile('logo')) {
+            $logo = $request->file('logo');
+            $logo->storeAs('public/timlogo', $logo->hashName());
+            Storage::delete('public/timlogo' . $tim->logo);
+            $tim->update([
+                'logo' => $logo->hashName(),
+                'nama' => $request->nama,
+                'desk' => $request->desk,
+            ]);
+        } else {
+            $tim->update([
+                'nama' => $request->nama,
+                'desk' => $request->desk,
+            ]);
+        }
+        return redirect()->route('dashboardTim')->with(['success' => 'Data tim Terubah']);
     }
 
     public function timDash()
@@ -184,23 +209,25 @@ class timController extends Controller
         return view('detailTim', compact('tim'));
     }
 
-    public function keluarTim(Request $request)
+    public function keluarTim(Request $request, $timId)
     {
         $user = $request->user();
 
-        if ($user->anggotaTim) {
-            $tim = Tim::find($user->anggotaTim);
-            if ($tim) {
-                if ($tim->ketua->id === $user->id) {
-                    $tim->anggota()->delete();
-                    $tim->delete();
-                    return redirect()->route('beranda')->with('success', 'Tim berhasil dibubarkan.');
-                }
-                $user->anggotaTim = null;
-                $user->save();
-                return redirect()->route('beranda')->with('success', 'Anda telah keluar dari tim.');
-            }
+        if ($user->tim()->where('tims.id', $timId)->exists()) {
+            $user->tim()->detach($timId);
+            return redirect()->route('beranda')->with('success', 'Anda telah keluar dari tim.');
         }
+
         return redirect()->back()->with('error', 'Anda belum tergabung dalam tim.');
+    }
+
+
+    public function listAnggota($id)
+    {
+        $tim = Tim::findOrFail($id);
+        $anggota = $tim->anggota;
+        $ketua = $tim->ketua;
+
+        return view('dashboardTim', compact('tim', 'anggota', 'ketua'));
     }
 }

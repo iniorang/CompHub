@@ -6,7 +6,7 @@
             <div class="col-md-12">
                 <div class="card border-0 shadow-sm rounded">
                     <div class="card-body">
-                        <form action="{{ route('tim.update', $tim->id) }}" method="POST" enctype="multipart/form-data">
+                        <form action="{{ route('view.user.update', $tim->id) }}" method="POST" enctype="multipart/form-data">
                             {{ csrf_field() }}
                             {{ method_field('put') }}
                             <div class="form-group">

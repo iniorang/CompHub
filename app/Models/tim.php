@@ -23,7 +23,7 @@ class tim extends Model
 
     public function anggota()
     {
-        return $this->hasMany(User::class, 'id');
+        return $this->belongsToMany(User::class, 'user_tim', 'tim_id', 'user_id')->withTimestamps();
     }
 
     public function users()

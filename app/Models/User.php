@@ -68,7 +68,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Tim::class, 'user_tim', 'user_id', 'tim_id')->withTimestamps();
     }
-    
+
     public function transaksis(){
         return $this->hasMany(Transaksi::class);
     }
