@@ -40,8 +40,10 @@ class timController extends Controller
 
     public function show(string $id): view
     {
-        $tim = tim::findorfail($id);
-        return view('tim.detail', compact('tim'));
+        $tim = Tim::findorfail($id);
+        $anggota = User::where('anggotaTim', $tim->id)->get();
+
+        return view('tim.detail', compact('tim','anggota'));
     }
 
     public function edit(string $id): view

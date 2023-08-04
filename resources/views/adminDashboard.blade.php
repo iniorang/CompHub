@@ -183,8 +183,8 @@
                                                 <td class="text-center">
                                                     <form onsubmit="return confirm('Apakah Anda Yakin ?');"
                                                         action="{{ route('tim.destroy', $t->id) }}" method="POST">
-                                                        {{-- <a href="{{ route('tim.detail', $t->id) }}"
-                                                            class="btn btn-sm btn-dark">Detail</a> --}}
+                                                        <a href="{{ route('tim.detail', $t->id) }}"
+                                                            class="btn btn-sm btn-dark">Detail</a>
                                                         <a href="{{ route('tim.edit', $t->id) }}"
                                                             class="btn btn-sm btn-primary">Edit</a>
                                                         @csrf
