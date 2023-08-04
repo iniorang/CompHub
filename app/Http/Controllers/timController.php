@@ -43,7 +43,7 @@ class timController extends Controller
         $tim = Tim::findorfail($id);
         $anggota = User::where('anggotaTim', $tim->id)->get();
 
-        return view('tim.detail', compact('tim','anggota'));
+        return view('tim.detail', compact('tim', 'anggota'));
     }
 
     public function edit(string $id): view
@@ -127,14 +127,12 @@ class timController extends Controller
 
     public function timDash()
     {
-        $user = Auth::user();
-        $tim = null;
+        $user = auth()->user();
+        $tim = $user->tim;
 
-        if ($user->anggotaTim) {
-            $tim = Tim::with('anggota')->findOrFail($user->anggotaTim);
-        }
+        // Kembali ke view dan mengirim data daftar tim
 
-        return view('tim', compact('tim'));
+        return view('tim', compact('user', 'tim'));
     }
 
     public function ikutTim($timId)
@@ -142,9 +140,8 @@ class timController extends Controller
         $user = auth()->user();
         $tim = Tim::find($timId);
 
-        if ($tim && !$user->anggotatim) {
-            $user->anggotaTim = $tim->id;
-            $user->save();
+        if ($tim && !$user->tim->contains($tim->id)) {
+            $user->tim()->attach($tim);
 
             return redirect()->route('manajemenTim', ['id' => $tim->id])->with('success', 'Anda berhasil bergabung ke tim.');
         }

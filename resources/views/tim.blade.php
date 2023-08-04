@@ -2,50 +2,17 @@
 
 @section('content')
     <div class="container">
-        @if ($tim)
-            <h2>Nama Tim: {{ $tim->nama }}</h2>
-            <form action="{{ route('resign') }}" method="POST">
-                @csrf
-                <button type="submit">Keluar dari Tim</button>
-            </form>
-
-            {{-- Tampilkan informasi lainnya tentang tim --}}
-
-            @if (auth()->user()->type === 'admin' || auth()->user()->id === $tim->ketua)
-                {{-- Jika user adalah admin atau ketua tim, tampilkan opsi untuk membubarkan tim dan mengeluarkan anggota --}}
-                <form action="{{ route('disband', $tim->id) }}" method="POST">
-                    @csrf
-                    <button type="submit" onclick="return confirm('Anda yakin ingin membubarkan tim?')">Bubarkan Tim</button>
-                </form>
-
-                <h3>Anggota Tim:</h3>
-                @if ($tim->anggotaTim)
-                    @if ($tim->anggotaTim->isEmpty())
-                        <p>Tim ini belum memiliki anggota.</p>
-                    @else
-                        <ul>
-                            @foreach ($tim->anggotaTim as $anggota)
-                                @if ($anggota->id !== $tim->ketua)
-                                    <li>
-                                        {{ $anggota->name }}
-                                        <form action="{{ route('kick', $anggota->id) }}" method="POST">
-                                            @csrf
-                                            <button type="submit"
-                                                onclick="return confirm('Anda yakin ingin mengeluarkan anggota ini dari tim?')">Keluarkan</button>
-                                        </form>
-                                    </li>
-                                @endif
-                            @endforeach
-                        </ul>
-                    @endif
-                @else
-                    <p>Tim ini belum memiliki anggota.</p>
-                @endif
-            @endif
+        <h2>Tim yang Anda Ikuti</h2>
+        @if ($user->tim->isEmpty())
+            <p>Anda belum bergabung dengan tim manapun.</p>
+            <p><a href="{{ route('show.timCreation.user') }}">Buat Tim Baru</a> atau <a href="{{ route('showalltim') }}">Ikut
+                    Tim Lain.</a></p>
         @else
-            <p>Anda belum tergabung dalam tim.</p>
-            <p><a href="{{ route('show.timCreation.user') }}">Buat Tim Baru</a> atau <a
-                    href="{{ route('showalltim') }}">Ikut Tim Lain</a>.</p>
+            <ul>
+                @foreach ($user->tim as $tim)
+                    <li>{{ $tim->nama }}</li>
+                @endforeach
+            </ul>
         @endif
     </div>
 @endsection

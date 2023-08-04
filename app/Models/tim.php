@@ -9,7 +9,7 @@ class tim extends Model
 {
     use HasFactory;
 
-    protected $fillable =[
+    protected $fillable = [
         'logo',
         'nama',
         'ketua',
@@ -24,5 +24,10 @@ class tim extends Model
     public function anggota()
     {
         return $this->hasMany(User::class, 'id');
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'user_tim', 'tim_id', 'user_id')->withTimestamps();
     }
 }

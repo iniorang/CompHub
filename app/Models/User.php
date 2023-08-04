@@ -64,10 +64,11 @@ class User extends Authenticatable
         return $this->belongsToMany(kompetisi::class, 'user_ikut_komps', 'user_id', 'komps_id');
     }
 
-    public function tim(): HasOne
+    public function tim()
     {
-        return $this->hasOne(tim::class, 'id');
+        return $this->belongsToMany(Tim::class, 'user_tim', 'user_id', 'tim_id')->withTimestamps();
     }
+    
     public function transaksis(){
         return $this->hasMany(Transaksi::class);
     }
