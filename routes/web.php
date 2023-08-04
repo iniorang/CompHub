@@ -47,6 +47,11 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::get('/tim/members/{id}', [timController::class, 'listAnggota'])->name('dashboardTim');
     Route::get('/tim/edit/{id}', [timController::class, 'editTim'])->name('user.update.tim');
     Route::put('/tim/update/tim/{id}', [timController::class, 'updateTim'])->name('view.user.update');
+
+    //Expermential
+    Route::post('/tim/minta-bergabung/{timId}', [TimController::class, 'mintaBergabung'])->name('minta-bergabung');
+    Route::post('/tim/terima/{requestId}', [TimController::class, 'terimaPermintaan'])->name('terima-permintaan');
+    Route::post('/tim/tolak/{requestId}', [TimController::class, 'tolakPermintaan'])->name('tolak-permintaan');
 });
 
 Route::middleware(['auth', 'user-access:admin'])->group(function () {

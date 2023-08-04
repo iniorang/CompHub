@@ -16,7 +16,7 @@
                     @if ($isJoined)
                         <p>Anda sudah ikut tim.</p>
                     @else
-                        <form action="{{ route('ikuttim', ['timId' => $tim->id]) }}" method="POST">
+                        <form action="{{ route('minta-bergabung', ['timId' => $tim->id]) }}" method="POST">
                             @csrf
                             <button type="submit">Ikut Tim</button>
                         </form>

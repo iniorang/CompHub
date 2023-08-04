@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\RequestJoin;
 use App\Models\tim;
 use App\Models\User;
 use Illuminate\Contracts\View\View;
@@ -174,6 +175,49 @@ class timController extends Controller
         return redirect()->route('beranda')->with('gagal', 'Gagal mendaftarkan diri ke tim');
     }
 
+    //Request Experimental
+    public function mintaBergabung($timId)
+    {
+        $user = auth()->user();
+        $tim = Tim::find($timId);
+
+        if ($tim && !$user->tim->contains($tim->id)) {
+            // Buat record permintaan bergabung
+            $user->requests()->attach($tim, ['status' => 'pending']);
+
+            return redirect()->route('beranda')->with('success', 'Permintaan bergabung berhasil diajukan.');
+        }
+        return redirect()->route('beranda')->with('error', 'Gagal mengajukan permintaan bergabung.');
+    }
+
+
+    public function terimaPermintaan($requestId)
+    {
+        $request = Request::find($requestId);
+
+        if ($request && $request->tim->ketua->id === auth()->user()->id && $request->status === 'pending') {
+            $request->update(['status' => 'accepted']);
+            $request->user->tim()->attach($request->tim);
+            return redirect()->route('list_request')->with('success', 'Permintaan bergabung diterima.');
+        }
+
+        return redirect()->route('list_request')->with('error', 'Gagal menerima permintaan bergabung.');
+    }
+
+    public function tolakPermintaan($requestId)
+    {
+        $request = Request::find($requestId);
+
+        if ($request && $request->tim->ketua->id === auth()->user()->id && $request->status === 'pending') {
+            $request->update(['status' => 'rejected']);
+            return redirect()->route('list_request')->with('success', 'Permintaan bergabung ditolak.');
+        }
+
+        return redirect()->route('list_request')->with('error', 'Gagal menolak permintaan bergabung.');
+    }
+
+
+    //End Request
     public function kick($userId)
     {
         $user = User::findOrFail($userId);
@@ -227,7 +271,8 @@ class timController extends Controller
         $tim = Tim::findOrFail($id);
         $anggota = $tim->anggota;
         $ketua = $tim->ketua;
+        $permintaan = $tim->request;
 
-        return view('dashboardTim', compact('tim', 'anggota', 'ketua'));
+        return view('dashboardTim', compact('tim', 'anggota', 'ketua', 'permintaan'));
     }
 }

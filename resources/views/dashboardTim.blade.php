@@ -29,7 +29,30 @@
                     <button type="submit">Keluar dari Tim</button>
                 </form>
             @endif
-
         @endauth
+
+        {{-- Manajemen Permintaan Bergabung --}}
+        @if ($permintaan->isEmpty())
+            <p>Tidak ada permintaan bergabung pada tim ini.</p>
+        @else
+            <h3>Permintaan Bergabung:</h3>
+            <ul>
+                @foreach ($permintaan as $request)
+                    <li>
+                        {{ $request->user->name }} - Status: {{ $request->status }}
+                        @if ($request->status === 'pending')
+                            <form action="{{ route('terima-permintaan', ['requestId' => $request->id]) }}" method="POST">
+                                @csrf
+                                <button type="submit">Terima</button>
+                            </form>
+                            <form action="{{ route('tolak-permintaan', ['requestId' => $request->id]) }}" method="POST">
+                                @csrf
+                                <button type="submit">Tolak</button>
+                            </form>
+                        @endif
+                    </li>
+                @endforeach
+            </ul>
+        @endif
     </div>
 @endsection

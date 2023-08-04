@@ -55,7 +55,7 @@ class User extends Authenticatable
     protected function type(): Attribute
     {
         return new Attribute(
-            get: fn($value) => ["user", "admin"][$value],
+            get: fn ($value) => ["user", "admin"][$value],
         );
     }
 
@@ -69,7 +69,15 @@ class User extends Authenticatable
         return $this->belongsToMany(Tim::class, 'user_tim', 'user_id', 'tim_id')->withTimestamps();
     }
 
-    public function transaksis(){
+    public function transaksis()
+    {
         return $this->hasMany(Transaksi::class);
+    }
+
+    public function requests()
+    {
+        return $this->belongsToMany(Tim::class, 'requests', 'user_id', 'tim_id')
+            ->withPivot('status')
+            ->withTimestamps();
     }
 }
