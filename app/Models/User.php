@@ -76,7 +76,7 @@ class User extends Authenticatable
 
     public function requests()
     {
-        return $this->belongsToMany(Tim::class, 'requests', 'user_id', 'tim_id')
+        return $this->belongsToMany(Tim::class, 'request_joins', 'user_id', 'tim_id')
             ->withPivot('status')
             ->withTimestamps();
     }

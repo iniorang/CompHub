@@ -193,15 +193,15 @@ class timController extends Controller
 
     public function terimaPermintaan($requestId)
     {
-        $request = Request::find($requestId);
+        $request = RequestJoin::find($requestId);
 
-        if ($request && $request->tim->ketua->id === auth()->user()->id && $request->status === 'pending') {
+        if ($request && $request->status === 'pending' && $request->tim && $request->tim->ketua->id === auth()->user()->id) {
             $request->update(['status' => 'accepted']);
             $request->user->tim()->attach($request->tim);
-            return redirect()->route('list_request')->with('success', 'Permintaan bergabung diterima.');
+            return redirect()->route('dashboardTim', ['id' => $request->tim->id])->with('success', 'Permintaan bergabung diterima.');
         }
+        return redirect()->route('dashboardTim', ['id' => $request->tim->id])->with('error', 'Gagal menerima permintaan bergabung.');
 
-        return redirect()->route('list_request')->with('error', 'Gagal menerima permintaan bergabung.');
     }
 
     public function tolakPermintaan($requestId)

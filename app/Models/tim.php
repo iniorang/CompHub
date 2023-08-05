@@ -34,6 +34,6 @@ class tim extends Model
     // Model Tim
     public function request()
     {
-        return $this->hasMany(Request::class, 'tim_id');
+        return $this->hasMany(RequestJoin::class, 'tim_id');
     }
 }
