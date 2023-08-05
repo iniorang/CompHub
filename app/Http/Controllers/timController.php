@@ -182,11 +182,16 @@ class timController extends Controller
         $tim = Tim::find($timId);
 
         if ($tim && !$user->tim->contains($tim->id)) {
-            // Buat record permintaan bergabung
-            $user->requests()->attach($tim, ['status' => 'pending']);
+            // Create a new join request
+            $joinRequest = new RequestJoin();
+            $joinRequest->user_id = $user->id;
+            $joinRequest->tim_id = $tim->id;
+            $joinRequest->status = 'pending';
+            $joinRequest->save();
 
             return redirect()->route('beranda')->with('success', 'Permintaan bergabung berhasil diajukan.');
         }
+
         return redirect()->route('beranda')->with('error', 'Gagal mengajukan permintaan bergabung.');
     }
 
@@ -194,26 +199,17 @@ class timController extends Controller
     public function terimaPermintaan($requestId)
     {
         $request = RequestJoin::find($requestId);
-
-        if ($request && $request->status === 'pending' && $request->tim && $request->tim->ketua->id === auth()->user()->id) {
-            $request->update(['status' => 'accepted']);
-            $request->user->tim()->attach($request->tim);
-            return redirect()->route('dashboardTim', ['id' => $request->tim->id])->with('success', 'Permintaan bergabung diterima.');
-        }
-        return redirect()->route('dashboardTim', ['id' => $request->tim->id])->with('error', 'Gagal menerima permintaan bergabung.');
+        $request->update(['status' => 'accepted']);
+        $request->tim->anggota()->attach($request->user);
+        return redirect()->route('dashboardTim', ['id' => $request->tim->id])->with('success', 'Permintaan bergabung diterima.');
 
     }
 
     public function tolakPermintaan($requestId)
     {
-        $request = Request::find($requestId);
-
-        if ($request && $request->tim->ketua->id === auth()->user()->id && $request->status === 'pending') {
-            $request->update(['status' => 'rejected']);
-            return redirect()->route('list_request')->with('success', 'Permintaan bergabung ditolak.');
-        }
-
-        return redirect()->route('list_request')->with('error', 'Gagal menolak permintaan bergabung.');
+        $request = RequestJoin::find($requestId);
+        $request->update(['status' => 'rejected']);
+        return redirect()->route('dashboardTim', ['id' => $request->tim->id])->with('success', 'Permintaan bergabung ditolak.');
     }
 
 
@@ -234,18 +230,18 @@ class timController extends Controller
 
     public function bubarkan($id)
     {
-        $tim = tim::findOrFail($id);
+        $tim = Tim::findOrFail($id);
 
-        if (auth()->user()->type === 'admin' || auth()->user()->id === $tim->ketua) {
+        if (auth()->user()->type === 'admin' || $tim->ketua === auth()->user()->id) {
             User::where('anggotaTim', $tim->id)->update(['anggotaTim' => null]);
-            //$tim = tim::findOrFail($id);
-            Storage::delete('public/timlogo' . $tim->image);
+            Storage::delete('public/timlogo/' . $tim->image);
             $tim->delete();
-
             return redirect()->route('beranda')->with('success', 'Tim berhasil dibubarkan.');
         }
+
         return redirect()->back()->with('error', 'Anda tidak memiliki izin untuk membubarkan tim.');
     }
+
 
     public function detail(string $id): view
     {
@@ -270,7 +266,7 @@ class timController extends Controller
     {
         $tim = Tim::findOrFail($id);
         $anggota = $tim->anggota;
-        $ketua = $tim->ketua;
+        $ketua = $tim->Ketua()->first();
         $permintaan = $tim->request;
 
         return view('dashboardTim', compact('tim', 'anggota', 'ketua', 'permintaan'));

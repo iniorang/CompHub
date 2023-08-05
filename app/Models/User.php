@@ -55,7 +55,7 @@ class User extends Authenticatable
     protected function type(): Attribute
     {
         return new Attribute(
-            get: fn ($value) => ["user", "admin"][$value],
+            get: fn($value) => ["user", "admin"][$value],
         );
     }
 
@@ -67,6 +67,11 @@ class User extends Authenticatable
     public function tim()
     {
         return $this->belongsToMany(Tim::class, 'user_tim', 'user_id', 'tim_id')->withTimestamps();
+    }
+
+    public function timKetua()
+    {
+        return $this->hasMany(Tim::class, 'ketua');
     }
 
     public function transaksis()

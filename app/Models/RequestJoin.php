@@ -8,9 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class RequestJoin extends Model
 {
     use HasFactory;
+    
+    protected $fillable = ['status'];
 
     public function user()
     {
         return $this->belongsTo(User::class, 'user_id');
+    }
+
+    public function tim()
+    {
+        return $this->belongsTo(Tim::class, 'tim_id');
     }
 }

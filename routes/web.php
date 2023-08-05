@@ -42,7 +42,7 @@ Route::middleware(['auth', 'user-access:user'])->group(function () {
     Route::post('/timbuat', [timController::class, 'buatTim'])->name('create.tim.user');
     Route::post('/tim/{timId}', [TimController::class, 'ikutTim'])->name('ikuttim');
     Route::post('/tim/kick/{userId}', [timController::class, 'kick'])->name('kick');
-    Route::post('/tim/disaband/{timId}', [timController::class, 'bubarkan'])->name('disband');
+    Route::post('/tim/disaband/{id}', [timController::class, 'bubarkan'])->name('disband');
     Route::post('/tim/{timId}/keluar', [TimController::class, 'keluarTim'])->name('resign');
     Route::get('/tim/members/{id}', [timController::class, 'listAnggota'])->name('dashboardTim');
     Route::get('/tim/edit/{id}', [timController::class, 'editTim'])->name('user.update.tim');
